@@ -45,7 +45,7 @@ gulp.task('clear-build', function (done) {
  * Clears out all the stuff that have been generated during development.
  */
 gulp.task('clean', function(done) {
-  return runsequence('clear-material', 'clear-build', done);
+  return runsequence(/*'clear-material', */'clear-build', done);
 });
 
 /*
@@ -131,7 +131,7 @@ gulp.task('index', function (done) {
 gulp.task('build', function (done) {
   return runsequence(
     'clean',
-    'copy-material',
+    // 'copy-material',
     ['style', 'less', 'js'],
     'index',
     done
