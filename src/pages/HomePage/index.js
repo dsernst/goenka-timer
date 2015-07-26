@@ -1,4 +1,7 @@
 var React = require('react');
+var mui = require('material-ui');
+var Paper = mui.Paper;
+var Slider = mui.Slider;
 
 // If you are going to be using stores, be sure to first load in the `Fluxxor`
 // module.
@@ -39,8 +42,21 @@ module.exports = React.createClass({
     return (
       <div className='home-page'>
         <h1 className='title'>S.N. Goenka meditation timer</h1>
+        <MainBox />
       </div>
     );
   }
+});
 
+var MainBox = React.createClass({
+  render: function () {
+    return (
+      <Paper zDepth={3} className="main-box">
+        <span>How long would you like to sit?</span><br />
+        <span>Include intro chanting?</span><br />
+        <span>Include closing chanting?</span><br />
+        <span>Include extra time for metta?</span><br />
+      </Paper>
+    );
+  }
 });
