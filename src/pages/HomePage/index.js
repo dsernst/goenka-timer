@@ -39,6 +39,13 @@ var RaisedButton = mui.RaisedButton;
 //
 //     <SomeView flux={flux} />
 
+var store = {
+  duration: 15,
+  introChanting: false,
+  closingChanting: false,
+  metta: false
+};
+
 module.exports = React.createClass({
   render: function () {
     return (
@@ -54,12 +61,37 @@ var MainBox = React.createClass({
   render: function () {
     return (
       <Paper zDepth={3} className="main-box">
-        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 40px 40px", height: 0}} />
-        <Toggle name="introChantingToggle" value="introChanting" label="Include intro chanting?" />
-        <Toggle name="closingChantingToggle" value="closingChanting" label="Include closing chanting?" />
-        <Toggle name="mettaToggle" value="metta" label="Include extra time for metta?" />
-        <RaisedButton label="Start" fullWidth={true} />
+        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 40px 40px", height: 0}} onChange={this.changeDuration} />
+        <Toggle name="introChantingToggle" value="introChanting" label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
+        <Toggle name="closingChantingToggle" value="closingChanting" label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
+        <Toggle name="mettaToggle" value="metta" label="Include extra time for metta?" onToggle={this.toggleMetta} />
+        <RaisedButton label="Start" fullWidth={true} onClick={this.pressStart} />
       </Paper>
     );
+  },
+
+  changeDuration: function (e, value) {
+    store.duration = value;
+    console.log('changed duration:', value)
+  },
+
+  toggleIntroChanting: function (e, toggled) {
+    store.introChanting = toggled;
+    console.log('toggled introChanting:', toggled);
+  },
+
+  toggleClosingChanting: function (e, toggled) {
+    store.closingChanting = toggled;
+    console.log('toggled closingChanting:', toggled);
+  },
+
+  toggleMetta: function (e, toggled) {
+    store.metta = toggled;
+    console.log('toggled metta:', toggled);
+  },
+
+  pressStart: function () {
+    console.log('pressed start:', store);
   }
+
 });
