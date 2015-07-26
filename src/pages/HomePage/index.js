@@ -4,6 +4,7 @@ var Paper = mui.Paper;
 var Slider = mui.Slider;
 var Toggle = mui.Toggle;
 var RaisedButton = mui.RaisedButton;
+require('howler');
 
 module.exports = React.createClass({
   render: function () {
@@ -71,5 +72,8 @@ var MainBox = React.createClass({
 
   pressStart: function () {
     console.log('pressed start:', this.state);
+    var sound = new Howl({
+      urls: ['../audio/intro-chanting.mp3']
+    }).play();
   }
 });

@@ -20,7 +20,8 @@ var paths = {
   style: ['src/style/*.less'],
   appjs: ['./src/app.jsx'],
   js: ['src/**/*.js'],
-  indexhtml: ['./src/index.html']
+  indexhtml: ['./src/index.html'],
+  assets: ['./src/assets/**']
 };
 
 // Here is where we will be sending all our files to.
@@ -123,6 +124,11 @@ gulp.task('index', function (done) {
   return runsequence('copy-index', 'inject-index', done);
 });
 
+gulp.task('copy-assets', function () {
+  gulp.src(paths.assets)
+      .pipe(gulp.dest(destPath));
+});
+
 /*
  * Compiles the global styles, local styles, and the JavaSript/JSX code, and
  * puts the compiled code into the `build` folder. Injects the necessary
@@ -134,6 +140,7 @@ gulp.task('build', function (done) {
     // 'copy-material',
     ['style', 'less', 'js'],
     'index',
+    'copy-assets',
     done
   );
 });
@@ -173,24 +180,24 @@ gulp.task('server', function () {
     }));
 });
 
-/*
- * Deletes the `src/style/material-ui` folder.
- */
-gulp.task('clear-material', function (done) {
-  del(['src/style/material-ui'], done);
-});
+// /*
+//  * Deletes the `src/style/material-ui` folder.
+//  */
+// gulp.task('clear-material', function (done) {
+//   del(['src/style/material-ui'], done);
+// });
 
-/*
- * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder
- * without checking (and then deleting) for an exsting folder in the
- * destination.
- */
-gulp.task('copy-material-no-clear', function (done) {
-  var source =
-    path.join(__dirname, 'node_modules', 'material-ui', 'src', 'less');
-  var dest = path.join(__dirname, 'src', 'style', 'material-ui');
-  ncp(source, dest, done);
-});
+
+//  * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder
+//  * without checking (and then deleting) for an exsting folder in the
+//  * destination.
+
+// gulp.task('copy-material-no-clear', function (done) {
+//   var source =
+//     path.join(__dirname, 'node_modules', 'material-ui', 'src', 'less');
+//   var dest = path.join(__dirname, 'src', 'style', 'material-ui');
+//   ncp(source, dest, done);
+// });
 
 /*
  * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder,
