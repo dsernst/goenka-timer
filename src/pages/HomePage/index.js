@@ -5,47 +5,6 @@ var Slider = mui.Slider;
 var Toggle = mui.Toggle;
 var RaisedButton = mui.RaisedButton;
 
-// If you are going to be using stores, be sure to first load in the `Fluxxor`
-// module.
-//
-//     var Fluxxor = require('Fluxxor');
-//
-// If you want to leverage the use of stores, a suggestion would be to
-// initialize an object, and set it to a `stores` variable, and adding a new
-// instance of the store as a property to the object, like so:
-//
-//     var stores = {
-//       SomeStore: new SomeStore()
-//     };
-//
-// And also, because we are using the Flux architecture, you may also initialize
-// an object full of methods that represent "actions" that will be called upon
-// by a "dispatcher", like so:
-//
-//     var actions = {
-//       doSomething: function (info) {
-//         this.dispatch('DO_SOMETHING', {info: info});
-//       }
-//     };
-//
-// And finally, you would pass the stores and actions to our dispatcher, like
-// so:
-//
-//     var flux = new Fluxxor.Flux(stores, actions);
-//
-// And, then, you would pass in the reference of your dispatcher to the view
-// relies on the dispatcher (that view is returned by the `render` method), like
-// so:
-//
-//     <SomeView flux={flux} />
-
-var store = {
-  duration: 15,
-  introChanting: false,
-  closingChanting: false,
-  metta: false
-};
-
 module.exports = React.createClass({
   render: function () {
     return (
@@ -57,41 +16,60 @@ module.exports = React.createClass({
   }
 });
 
-var MainBox = React.createClass({
+var step = 90;
+
+var Duration = React.createClass({
   render: function () {
     return (
-      <Paper zDepth={3} className="main-box">
-        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 40px 40px", height: 0}} onChange={this.changeDuration} />
+      <h2 style={{color: "white", textAlign: "center"}}>{Math.round(this.props.time * step)} minutes</h2>
+    );
+  }
+});
+
+var MainBox = React.createClass({
+  getInitialState: function () {
+    return {
+      duration: (15 / step),
+      introChanting: false,
+      closingChanting: false,
+      metta: false
+    };
+  },
+
+  render: function () {
+    return (
+      <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
+        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 0px 40px", height: "30px"}} onChange={this.changeDuration} />
         <Toggle name="introChantingToggle" value="introChanting" label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle name="closingChantingToggle" value="closingChanting" label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
         <Toggle name="mettaToggle" value="metta" label="Include extra time for metta?" onToggle={this.toggleMetta} />
-        <RaisedButton label="Start" fullWidth={true} onClick={this.pressStart} />
+        <RaisedButton label="Start" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStart} />
+        <Duration time={this.state.duration} />
       </Paper>
     );
   },
 
   changeDuration: function (e, value) {
-    store.duration = value;
-    console.log('changed duration:', value)
+    this.setState({duration: value});
+    // console.log('changed duration:', value)
   },
 
   toggleIntroChanting: function (e, toggled) {
-    store.introChanting = toggled;
-    console.log('toggled introChanting:', toggled);
+    this.setState({introChanting: toggled});
+    // console.log('toggled introChanting:', toggled);
   },
 
   toggleClosingChanting: function (e, toggled) {
-    store.closingChanting = toggled;
-    console.log('toggled closingChanting:', toggled);
+    this.setState({closingChanting: toggled});
+    // console.log('toggled closingChanting:', toggled);
   },
 
   toggleMetta: function (e, toggled) {
-    store.metta = toggled;
-    console.log('toggled metta:', toggled);
+    this.setState({metta: toggled});
+    // console.log('toggled metta:', toggled);
   },
 
   pressStart: function () {
-    console.log('pressed start:', store);
+    console.log('pressed start:', this.state);
   }
-
 });
