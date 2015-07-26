@@ -1,6 +1,12 @@
 {
+  "description": "Custom length S.N. Goenka guided meditations",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dsernst/goenka-timer.git"
+  },
   "scripts": {
-    "server": "gulp develop",
+    "start": "gulp develop",
     "test": "jest"
   },
   "devDependencies": {
