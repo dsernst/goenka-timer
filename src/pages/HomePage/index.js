@@ -3,6 +3,7 @@ var mui = require('material-ui');
 var Paper = mui.Paper;
 var Slider = mui.Slider;
 var Toggle = mui.Toggle;
+var RaisedButton = mui.RaisedButton;
 
 // If you are going to be using stores, be sure to first load in the `Fluxxor`
 // module.
@@ -53,10 +54,11 @@ var MainBox = React.createClass({
   render: function () {
     return (
       <Paper zDepth={3} className="main-box">
-        <span>How long would you like to sit?</span><br />
+        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 40px 40px", height: 0}} />
         <Toggle name="introChantingToggle" value="introChanting" label="Include intro chanting?" />
         <Toggle name="closingChantingToggle" value="closingChanting" label="Include closing chanting?" />
         <Toggle name="mettaToggle" value="metta" label="Include extra time for metta?" />
+        <RaisedButton label="Start" fullWidth={true} />
       </Paper>
     );
   }

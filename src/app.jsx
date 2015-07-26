@@ -48,9 +48,14 @@ var Master = React.createClass({
     };
   },
 
+  componentWillMount: function () {
+    ThemeManager.setTheme(ThemeManager.types.DARK);
+  },
+
   _onMenuIconButtonTouchTap: function () {
     this.refs.leftNav.toggle();
   },
+
   render: function () {
     return (
       <AppCanvas predefinedLayout={1}>
