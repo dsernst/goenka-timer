@@ -38,7 +38,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div className='home-page'>
-        goenka-timer
+        <h1 className='title'>S.N. Goenka meditation timer</h1>
       </div>
     );
   }
