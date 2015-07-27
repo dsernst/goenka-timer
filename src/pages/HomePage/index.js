@@ -13,8 +13,13 @@ var TimePicker = require('react-time-picker');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      onConfigScreen: true
+      onConfigScreen: true,
+      durationString: '00:20'
     };
+  },
+
+  updateDurationString: function (string) {
+    this.setState({durationString: string});
   },
 
   switchScreens: function (screen, configs) {
@@ -27,7 +32,7 @@ module.exports = React.createClass({
         <h1 className='title'>S.N. Goenka meditation timer</h1>
         <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
           {this.state.onConfigScreen ?
-            <ConfigScreen switchScreens={this.switchScreens} /> :
+            <ConfigScreen switchScreens={this.switchScreens} defaultDuration={this.state.durationString} updateDurationString={this.updateDurationString} /> :
             <PlaybackScreen switchScreens={this.switchScreens} duration={this.state.duration} />
           }
         </Paper>
@@ -35,8 +40,6 @@ module.exports = React.createClass({
     );
   }
 });
-
-var defaultDuration = '00:20';
 
 function durationStringToMilliseconds(string) {
   return string.split(':')
@@ -53,7 +56,7 @@ function durationStringToMilliseconds(string) {
 var DurationSelector = React.createClass({
   getInitialState: function () {
     return {
-      value: defaultDuration
+      value: this.props.defaultDuration
     };
   },
 
@@ -61,21 +64,22 @@ var DurationSelector = React.createClass({
     return (
       <div className="duration-setting">
         <label>How long would you like to sit?</label>
-        <TimePicker value={this.state.value} onChange={this.onChangeEvent} style={{border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}}/>
+        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={{border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}}/>
       </div>
     );
   },
 
-  onChangeEvent: function (value) {
-    this.setState({value: value});
-    this.props.action(value);
+  adjustDuration: function (string, moment) {
+    this.setState({value: string});
+    this.props.changeDuration(string);
+    this.props.updateDurationString(string);
   }
 });
 
 var ConfigScreen = React.createClass({
   getInitialState: function () {
     return {
-      duration: durationStringToMilliseconds(defaultDuration),
+      duration: durationStringToMilliseconds(this.props.defaultDuration),
       introChanting: false,
       closingChanting: false,
       metta: false
@@ -85,7 +89,7 @@ var ConfigScreen = React.createClass({
   render: function () {
     return (
       <div className="config-container">
-        <DurationSelector action={this.changeDuration}/>
+        <DurationSelector changeDuration={this.changeDuration} defaultDuration={this.props.defaultDuration} updateDurationString={this.props.updateDurationString} />
         <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
         <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
