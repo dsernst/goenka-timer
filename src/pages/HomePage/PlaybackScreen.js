@@ -1,6 +1,7 @@
 require('howler');
 var React = require('react');
 var CountdownTimer = require('react-countdown-timer');
+var _ = require('lodash');
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var Colors = mui.Styles.Colors;
@@ -41,16 +42,23 @@ var Duration = React.createClass({
 
   countdown: function (timeRemaining) {
     this.props.updateTimeRemaining(timeRemaining);
+    if (timeRemaining <= this.props.playlist[0].time) {
+      this.props.playNextTrack();
+    }
   }
 });
 
+function nullTrackControl() {
+  console.log('no track playing');
+}
+
 module.exports = React.createClass({
   getInitialState: function () {
-    return {
-      sound: new Howl({urls: ['../audio/intro-chanting.mp3']}),
+    return _.extend(this.props.settings, {
+      sound: {pause: nullTrackControl, play: nullTrackControl},
       isPaused: false,
-      timeRemaining: this.props.duration
-    };
+      timeRemaining: this.props.settings.duration,
+    });
   },
 
   shouldComponentUpdate: function (nextProps, nextState) {
@@ -62,16 +70,18 @@ module.exports = React.createClass({
     this.setState({timeRemaining: millisecondsRemaining});
   },
 
-  componentDidMount: function () {
-    this.state.sound.play();
+  componentWillMount: function () {
+    console.log('this.state', this.state);
+    this.setState({playlist: this.calculateStartTimes()});
+    // this.state.sound.play();
   },
 
   render: function () {
     return (
       <div>
-        <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} />
+        <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
         {this.state.isPaused ?
-          <RaisedButton label="Resume" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.lightGreen700} onClick={this.pressPlay} /> :
+          <RaisedButton label="Resume" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.lightGreen700} onClick={this.pressResume} /> :
           <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.amber700} onClick={this.pressPause} />
         }
         <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.redA700} onClick={this.pressStop} />
@@ -84,7 +94,7 @@ module.exports = React.createClass({
     this.setState({isPaused: true});
   },
 
-  pressPlay: function () {
+  pressResume: function () {
     this.state.sound.play();
     this.setState({isPaused: false});
   },
@@ -92,7 +102,57 @@ module.exports = React.createClass({
   pressStop: function () {
     this.state.sound.stop();
     this.props.switchScreens({onConfigScreen: true}, {});
+  },
+
+  calculateStartTimes: function () {
+    var duration = this.state.duration;
+    var startTimes = [];
+
+    startTimes.push({
+      time: duration,
+      file: audio.directory + audio.introInstructions.filename
+    });
+
+    if (this.state.introChanting) {
+      // delay introInstructions' start time
+      startTimes[0].time -= audio.introChanting.length,
+      startTimes.unshift({
+        time: duration,
+        file: audio.directory + audio.introChanting.filename
+      })
+    }
+
+    if (this.state.closingChanting) {
+      startTimes.push({
+        time: audio.closingChanting.length + audio.closingMetta.length,
+        file: audio.directory + audio.closingChanting.filename
+      })
+    }
+
+    if (this.state.metta) {
+      startTimes.push({
+        time: audio.mettaIntro.length + audio.closingMetta.length,
+        file: audio.directory + audio.mettaIntro.filename
+      });
+      if (this.state.closingChanting) {
+        // we need to start the closingChanting sooner, if we're doing extended metta
+        startTimes[startTimes.length - 2].time += audio.mettaIntro.length;
+      }
+    }
+
+    startTimes.push({
+      time: audio.closingMetta.length,
+      file: audio.directory + audio.closingMetta.filename
+    });
+
+    return startTimes;
+  },
+
+  playNextTrack: function () {
+    var track = this.state.playlist.shift();
+    this.setState({sound: new Howl({urls: [track.file]}).play()});
   }
+
 });
 
 var audio = {

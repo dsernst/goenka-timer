@@ -83,7 +83,7 @@ module.exports = React.createClass({
   },
 
   pressStart: function () {
-    console.log('pressed start:', this.state);
+    // console.log('pressed start:', this.state);
     this.props.switchScreens({onConfigScreen: false}, this.state);
   }
 });
