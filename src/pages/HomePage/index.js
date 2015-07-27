@@ -29,7 +29,7 @@ module.exports = React.createClass({
         <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
           {this.state.onConfigScreen ?
             <ConfigScreen switchScreens={this.switchScreens} defaultDuration={this.state.durationString} updateDurationString={this.updateDurationString} /> :
-            <PlaybackScreen switchScreens={this.switchScreens} duration={this.state.duration} />
+            <PlaybackScreen switchScreens={this.switchScreens} settings={this.state} />
           }
         </Paper>
       </div>
