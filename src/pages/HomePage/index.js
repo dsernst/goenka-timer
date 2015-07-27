@@ -58,7 +58,7 @@ var ConfigScreen = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="config-container">
         <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 0px 40px", height: "30px"}} onChange={this.changeDuration} />
         <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
