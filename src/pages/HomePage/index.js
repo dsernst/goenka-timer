@@ -1,10 +1,11 @@
+require('howler');
 var React = require('react');
 var mui = require('material-ui');
 var Paper = mui.Paper;
 var Slider = mui.Slider;
 var Toggle = mui.Toggle;
 var RaisedButton = mui.RaisedButton;
-require('howler');
+var CountdownTimer = require('react-countdown-timer');
 
 module.exports = React.createClass({
   render: function () {
@@ -22,8 +23,9 @@ var step = 90;
 var Duration = React.createClass({
   render: function () {
     return (
-      <h2 style={{color: "white", textAlign: "center"}}>{Math.round(this.props.time * step)} minutes</h2>
+      <CountdownTimer initialTimeRemaining={this.props.time * (step * 60 * 1000)} />
     );
+
   }
 });
 
