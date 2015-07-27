@@ -1,5 +1,6 @@
 require('howler');
 var React = require('react');
+var _ = require('lodash');
 var mui = require('material-ui');
 var Paper = mui.Paper;
 var Slider = mui.Slider;
@@ -14,10 +15,8 @@ module.exports = React.createClass({
     };
   },
 
-  switchScreens: function (configs) {
-    this.setState(function (previousState) {
-      return {onConfigScreen: !previousState.onConfigScreen};
-    });
+  switchScreens: function (screen, configs) {
+    this.setState(_.extend(screen, configs));
   },
 
   render: function () {
@@ -25,7 +24,10 @@ module.exports = React.createClass({
       <div className='home-page'>
         <h1 className='title'>S.N. Goenka meditation timer</h1>
         <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
-          {this.state.onConfigScreen ? <ConfigScreen switchScreens={this.switchScreens} /> : <PlaybackScreen switchScreens={this.switchScreens} />}
+          {this.state.onConfigScreen ?
+            <ConfigScreen switchScreens={this.switchScreens} /> :
+            <PlaybackScreen switchScreens={this.switchScreens} duration={this.state.duration} />
+          }
         </Paper>
       </div>
     );
@@ -87,21 +89,26 @@ var ConfigScreen = React.createClass({
 
   pressStart: function () {
     console.log('pressed start:', this.state);
-    this.props.switchScreens(this.state);
+    this.props.switchScreens({onConfigScreen: false}, this.state);
   }
 });
 
 var PlaybackScreen = React.createClass({
+  getInitialState: function () {
+    return {
+      sound: new Howl({urls: ['../audio/intro-chanting.mp3']}),
+      paused: false
+    };
+  },
+
   componentDidMount: function () {
-    var sound = new Howl({
-      urls: ['../audio/intro-chanting.mp3']
-    }).play();
+    this.state.sound.play();
   },
 
   render: function () {
     return (
       <div>
-        <Duration time={15 / maxTime /*this.state.duration*/} />
+        <Duration time={this.props.duration} />
         <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPause} />
         <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStop} />
       </div>
@@ -109,11 +116,11 @@ var PlaybackScreen = React.createClass({
   },
 
   pressPause: function () {
-    sound.pause();
+    this.state.sound.pause();
   },
 
   pressStop: function () {
-    this.props.switchScreens(this.state);
+    this.state.sound.stop();
+    this.props.switchScreens({onConfigScreen: true}, {});
   }
-
 });
