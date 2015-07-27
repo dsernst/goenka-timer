@@ -36,10 +36,24 @@ module.exports = React.createClass({
   }
 });
 
+var defaultDuration = '00:20';
+
+function durationStringToMilliseconds(string) {
+  return string.split(':')
+               .reduce(function (memo, value, index) {
+                  if (index === 0) {
+                    var minutes = value * 60;
+                  } else if (index === 1) {
+                    var minutes = value;
+                  }
+                  return memo + (minutes * 60 * 1000);
+                }, 0);
+}
+
 var DurationSelector = React.createClass({
   getInitialState: function () {
     return {
-      value: '00:20:00'
+      value: defaultDuration
     };
   },
 
@@ -54,13 +68,14 @@ var DurationSelector = React.createClass({
 
   onChangeEvent: function (value) {
     this.setState({value: value});
+    this.props.action(value);
   }
 });
 
 var ConfigScreen = React.createClass({
   getInitialState: function () {
     return {
-      // duration: (15 / maxTime),
+      duration: durationStringToMilliseconds(defaultDuration),
       introChanting: false,
       closingChanting: false,
       metta: false
@@ -70,7 +85,7 @@ var ConfigScreen = React.createClass({
   render: function () {
     return (
       <div className="config-container">
-        <DurationSelector />
+        <DurationSelector action={this.changeDuration}/>
         <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
         <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
@@ -79,9 +94,9 @@ var ConfigScreen = React.createClass({
     );
   },
 
-  changeDuration: function (e, value) {
-    this.setState({duration: value});
-    // console.log('changed duration:', value)
+  changeDuration: function (value) {
+    this.setState({duration: durationStringToMilliseconds(value)});
+    // console.log('changed duration:', value);
   },
 
   toggleIntroChanting: function (e, toggled) {
