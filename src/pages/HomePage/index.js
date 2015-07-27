@@ -97,7 +97,7 @@ var PlaybackScreen = React.createClass({
   getInitialState: function () {
     return {
       sound: new Howl({urls: ['../audio/intro-chanting.mp3']}),
-      paused: false
+      isPaused: false
     };
   },
 
@@ -109,7 +109,10 @@ var PlaybackScreen = React.createClass({
     return (
       <div>
         <Duration time={this.props.duration} />
-        <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPause} />
+        {this.state.isPaused ?
+          <RaisedButton label="Play" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPlay} /> :
+          <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPause} />
+        }
         <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStop} />
       </div>
     );
@@ -117,6 +120,12 @@ var PlaybackScreen = React.createClass({
 
   pressPause: function () {
     this.state.sound.pause();
+    this.setState({isPaused: true});
+  },
+
+  pressPlay: function () {
+    this.state.sound.play();
+    this.setState({isPaused: false});
   },
 
   pressStop: function () {
