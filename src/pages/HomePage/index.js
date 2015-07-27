@@ -6,6 +6,7 @@ var Paper = mui.Paper;
 var Slider = mui.Slider;
 var Toggle = mui.Toggle;
 var RaisedButton = mui.RaisedButton;
+var Colors = mui.Styles.Colors;
 var CountdownTimer = require('react-countdown-timer');
 
 module.exports = React.createClass({
@@ -62,7 +63,7 @@ var ConfigScreen = React.createClass({
         <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
         <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
-        <RaisedButton label="Start" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStart} />
+        <RaisedButton label="Start" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.green600} onClick={this.pressStart} />
       </div>
     );
   },
@@ -110,10 +111,10 @@ var PlaybackScreen = React.createClass({
       <div>
         <Duration time={this.props.duration} />
         {this.state.isPaused ?
-          <RaisedButton label="Play" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPlay} /> :
-          <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPause} />
+          <RaisedButton label="Play" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.green600} onClick={this.pressPlay} /> :
+          <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.orange400} onClick={this.pressPause} />
         }
-        <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStop} />
+        <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.red500} onClick={this.pressStop} />
       </div>
     );
   },
