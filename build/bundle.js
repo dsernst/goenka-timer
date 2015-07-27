@@ -61268,7 +61268,7 @@ module.exports = React.createClass({displayName: "exports",
 });
 
 var audio = {
-  directory: '../build/audio/',
+  directory: '../goenka-timer/audio/',
   closingChanting: {
     filename: 'closing-chanting.mp3',
     length: ((2 * 60) + 53) * 1000
