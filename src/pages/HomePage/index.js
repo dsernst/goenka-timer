@@ -8,31 +8,45 @@ var RaisedButton = mui.RaisedButton;
 var CountdownTimer = require('react-countdown-timer');
 
 module.exports = React.createClass({
+  getInitialState: function () {
+    return {
+      onConfigScreen: true
+    };
+  },
+
+  switchScreens: function (configs) {
+    this.setState(function (previousState) {
+      return {onConfigScreen: !previousState.onConfigScreen};
+    });
+  },
+
   render: function () {
     return (
       <div className='home-page'>
         <h1 className='title'>S.N. Goenka meditation timer</h1>
-        <MainBox />
+        <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
+          {this.state.onConfigScreen ? <ConfigScreen switchScreens={this.switchScreens} /> : <PlaybackScreen switchScreens={this.switchScreens} />}
+        </Paper>
       </div>
     );
   }
 });
 
-var step = 90;
+var maxTime = 90;
 
 var Duration = React.createClass({
   render: function () {
     return (
-      <CountdownTimer initialTimeRemaining={this.props.time * (step * 60 * 1000)} />
+      <CountdownTimer initialTimeRemaining={this.props.time * (maxTime * 60 * 1000)} />
     );
 
   }
 });
 
-var MainBox = React.createClass({
+var ConfigScreen = React.createClass({
   getInitialState: function () {
     return {
-      duration: (15 / step),
+      duration: (15 / maxTime),
       introChanting: false,
       closingChanting: false,
       metta: false
@@ -41,14 +55,13 @@ var MainBox = React.createClass({
 
   render: function () {
     return (
-      <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
+      <div>
         <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 0px 40px", height: "30px"}} onChange={this.changeDuration} />
-        <Toggle name="introChantingToggle" value="introChanting" label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
-        <Toggle name="closingChantingToggle" value="closingChanting" label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
-        <Toggle name="mettaToggle" value="metta" label="Include extra time for metta?" onToggle={this.toggleMetta} />
+        <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
+        <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
+        <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
         <RaisedButton label="Start" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStart} />
-        <Duration time={this.state.duration} />
-      </Paper>
+      </div>
     );
   },
 
@@ -74,8 +87,33 @@ var MainBox = React.createClass({
 
   pressStart: function () {
     console.log('pressed start:', this.state);
+    this.props.switchScreens(this.state);
+  }
+});
+
+var PlaybackScreen = React.createClass({
+  componentDidMount: function () {
     var sound = new Howl({
       urls: ['../audio/intro-chanting.mp3']
     }).play();
+  },
+
+  render: function () {
+    return (
+      <div>
+        <Duration time={15 / maxTime /*this.state.duration*/} />
+        <RaisedButton label="Pause" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressPause} />
+        <RaisedButton label="Stop" fullWidth={true} style={{margin: "20px 0"}} onClick={this.pressStop} />
+      </div>
+    );
+  },
+
+  pressPause: function () {
+    sound.pause();
+  },
+
+  pressStop: function () {
+    this.props.switchScreens(this.state);
   }
+
 });
