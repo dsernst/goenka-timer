@@ -175,6 +175,6 @@ var audio = {
   },
   mettaIntro: {
     filename: 'metta-intro.mp3',
-    length: 14 * 1000
+    length: ((4 * 60) + 27) * 1000
   }
 };

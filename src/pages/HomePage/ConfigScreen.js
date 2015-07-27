@@ -53,9 +53,9 @@ module.exports = React.createClass({
     return (
       <div className="config-container">
         <DurationSelector changeDuration={this.changeDuration} defaultDuration={this.props.defaultDuration} />
-        <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
-        <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
-        <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
+        <Toggle label="Include intro chanting? (2 min)" onToggle={this.toggleIntroChanting} />
+        <Toggle label="Include closing chanting? (3 min)" onToggle={this.toggleClosingChanting} />
+        <Toggle label="Include extended metta time? (4.5 min)" onToggle={this.toggleMetta} />
         <RaisedButton label="Start" fullWidth={true} style={{margin: "20px 0"}} backgroundColor={Colors.lightGreen700} onClick={this.pressStart} />
       </div>
     );
