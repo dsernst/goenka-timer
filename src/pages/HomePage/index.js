@@ -8,6 +8,7 @@ var Toggle = mui.Toggle;
 var RaisedButton = mui.RaisedButton;
 var Colors = mui.Styles.Colors;
 var CountdownTimer = require('react-countdown-timer');
+var TimePicker = require('react-time-picker');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -35,21 +36,31 @@ module.exports = React.createClass({
   }
 });
 
-var maxTime = 90;
+var DurationSelector = React.createClass({
+  getInitialState: function () {
+    return {
+      value: '00:20:00'
+    };
+  },
 
-var Duration = React.createClass({
   render: function () {
     return (
-      <CountdownTimer initialTimeRemaining={this.props.time * (maxTime * 60 * 1000)} />
+      <div className="duration-setting">
+        <label>How long would you like to sit?</label>
+        <TimePicker value={this.state.value} onChange={this.onChangeEvent} style={{border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}}/>
+      </div>
     );
+  },
 
+  onChangeEvent: function (value) {
+    this.setState({value: value});
   }
 });
 
 var ConfigScreen = React.createClass({
   getInitialState: function () {
     return {
-      duration: (15 / maxTime),
+      // duration: (15 / maxTime),
       introChanting: false,
       closingChanting: false,
       metta: false
@@ -59,7 +70,7 @@ var ConfigScreen = React.createClass({
   render: function () {
     return (
       <div className="config-container">
-        <Slider name="durationSlider" description="How long would you like to sit?" style={{color: "rgba(255, 255, 255, 1)", margin: "0px 0px 40px", height: "30px"}} onChange={this.changeDuration} />
+        <DurationSelector />
         <Toggle label="Include intro chanting?" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting?" onToggle={this.toggleClosingChanting} />
         <Toggle label="Include extra time for metta?" onToggle={this.toggleMetta} />
@@ -91,6 +102,14 @@ var ConfigScreen = React.createClass({
   pressStart: function () {
     console.log('pressed start:', this.state);
     this.props.switchScreens({onConfigScreen: false}, this.state);
+  }
+});
+
+var Duration = React.createClass({
+  render: function () {
+    return (
+      <CountdownTimer initialTimeRemaining={this.props.time} />
+    );
   }
 });
 
