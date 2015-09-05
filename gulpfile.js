@@ -1,18 +1,18 @@
 var gulp = require('gulp');
-var browserify = require('browserify');
-var del = require('del');
-var reactify = require('reactify');
-var source = require('vinyl-source-stream');
 var webserver = require('gulp-webserver');
 var less = require('gulp-less');
-var path = require('path');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 var runsequence = require('gulp-run-sequence');
-var ncp = require('ncp').ncp;
 var gutil = require('gulp-util');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var reactify = require('reactify');
+var del = require('del');
+var path = require('path');
+var ncp = require('ncp').ncp;
 
-// Just some directories that we will be providing to `gulp.src` method calls.
+// Directories we will provide to `gulp.src`.
 var paths = {
   less: ['src/**/*.less', 'src/**/**/*.less', '!src/{style,style/**}'],
   css: ['build/**/*.css', '!build/{style,style/**}'],
@@ -24,7 +24,7 @@ var paths = {
   assets: ['./src/assets/**']
 };
 
-// Here is where we will be sending all our files to.
+// Where we send all our files to.
 var destPath = './build';
 
 // Handles an error event.
@@ -34,13 +34,8 @@ function swallowError(error) {
 }
 
 // Deletes the `build` folder.
-gulp.task('clear-build', function (done) {
-  del(['build'], done);
-});
-
-// Clears out all the stuff that have been generated during development.
 gulp.task('clean', function (done) {
-  return runsequence(/*'clear-material', */'clear-build', done);
+  del(['build'], done);
 });
 
 // Compiles all LESS style sheets that are "local" to specific modules.
@@ -117,7 +112,6 @@ gulp.task('copy-assets', function () {
 gulp.task('build', function (done) {
   return runsequence(
     'clean',
-    // 'copy-material',
     ['style', 'less', 'js'],
     'index',
     'copy-assets',
@@ -143,7 +137,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.indexhtml, ['index']);
 });
 
-// Run the server.
+// Serve build over localhost:8000.
 gulp.task('server', function () {
   return gulp.src(destPath)
     .pipe(webserver({
@@ -152,33 +146,13 @@ gulp.task('server', function () {
     }));
 });
 
-// /*
-//  * Deletes the `src/style/material-ui` folder.
-//  */
-// gulp.task('clear-material', function (done) {
-//   del(['src/style/material-ui'], done);
-// });
-
-
-//  * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder
-//  * without checking (and then deleting) for an exsting folder in the
-//  * destination.
-
-// gulp.task('copy-material-no-clear', function (done) {
-//   var source =
-//     path.join(__dirname, 'node_modules', 'material-ui', 'src', 'less');
-//   var dest = path.join(__dirname, 'src', 'style', 'material-ui');
-//   ncp(source, dest, done);
-// });
-
-// Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder,
-// assuming that it's been properly installed.
+// Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder, assuming that it's been properly installed.
 gulp.task('copy-material', function (done) {
   return runsequence('clear-material', 'copy-material-no-clear', done);
 });
 
-// The default is meant for development. Watches for changes, runs the builds,
-// and fires up a web server. Also opens a new browser tab to the application.
+// The default for development: `npm start` calls this.
+// Watches for changes, runs the builds, and fires up a web server. Also opens a new browser tab to the application.
 gulp.task('develop', function () {
   return runsequence('build', ['watch', 'server']);
 });
