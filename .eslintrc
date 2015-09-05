@@ -1,38 +1,57 @@
 {
-	"parser": "esprima-fb",
-	"ecma-features": {
-		"jsx": true
-	},
-	"plugins": [
-		"react"
-	],
-	"rules": {
-		"no-console": 0,
-		"comma-dangle": [1, "always-multiline"],
-		"indent": [2, 2],
-		"no-underscore-dangle": 0,
-		"no-debugger": 1,
-		"quotes": [2, "single"],
-		"semi": [1, "never"],
-		"new-cap": 0,
-		"no-mixed-spaces-and-tabs": 2,
-		"no-use-before-define": 0,
-		"no-alert": 0,
-		"react/display-name": 0,
-		"react/jsx-boolean-value": 1,
-		"react/jsx-quotes": 1,
-		"react/jsx-no-undef": 2,
-		"react/jsx-sort-props": 0,
-		"react/jsx-sort-prop-types": 0,
-		"react/jsx-uses-react": 2,
-		"react/jsx-uses-vars": 2,
-		"react/no-did-mount-set-state": 1,
-		"react/no-did-update-set-state": 1,
-		"react/no-multi-comp": 1,
-		"react/no-unknown-property": 1,
-		"react/prop-types": 0,
-		"react/react-in-jsx-scope": 1,
-		"react/self-closing-comp": 1,
-		"react/wrap-multilines": 1
-	}
+  "parser": "esprima-fb",
+  "env": {
+    "commonjs": true,
+    "browser": true
+  },
+  "ecma-features": {
+    "jsx": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+    "comma-dangle": [1, "always-multiline"],
+    "indent": [1, 2],
+    "new-cap": 1,
+    "no-alert": 1,
+    "no-console": 1,
+    "no-debugger": 1,
+    "no-dupe-args": 2,
+    "no-empty": 1,
+    "no-extra-parens": 1,
+    "no-extra-semi": 1,
+    "no-irregular-whitespace": 2,
+    "no-invalid-regexp": 1,
+    "no-mixed-spaces-and-tabs": 1,
+    "no-redeclare": 1,
+    "no-undef": 2,
+    "no-underscore-dangle": 1,
+    "no-unreachable": 2,
+    "no-unused-vars": 2,
+    "no-use-before-define": 1,
+    "no-useless-concat": 1,
+    "quotes": [1, "single"],
+    "radix": 1,
+    "semi": [1, "never"],
+    "valid-typeof": 2,
+
+    "react/display-name": 0,
+    "react/jsx-boolean-value": 1,
+    "react/jsx-quotes": 1,
+    "react/jsx-no-undef": 2,
+    "react/jsx-sort-props": 0,
+    "react/jsx-sort-prop-types": 0,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/no-did-mount-set-state": 1,
+    "react/no-did-update-set-state": 1,
+    "react/no-multi-comp": 1,
+    "react/no-unknown-property": 1,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 1,
+    "react/self-closing-comp": 1,
+    "react/wrap-multilines": 1,
+  }
 }

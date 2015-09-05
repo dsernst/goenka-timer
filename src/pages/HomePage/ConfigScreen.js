@@ -3,7 +3,7 @@ var mui = require('material-ui')
 var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var TimePicker = require('react-time-picker')
+var DurationSelector = require('./DurationSelector.js')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
@@ -13,31 +13,9 @@ function durationStringToMilliseconds(string) {
     } else if (index === 1) {
       minutes = value
     }
-    return memo + (minutes * 60 * 1000)
+    return memo + minutes * 60 * 1000
   }, 0)
 }
-
-var DurationSelector = React.createClass({
-  getInitialState: function () {
-    return {
-      value: this.props.defaultDuration,
-    }
-  },
-
-  render: function () {
-    return (
-      <div className="duration-setting">
-        <label>How long would you like to sit?</label>
-        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={{border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}}/>
-      </div>
-    )
-  },
-
-  adjustDuration: function (string, moment) {
-    this.setState({value: string})
-    this.props.changeDuration(string)
-  },
-})
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -50,7 +28,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    return (
+    return 0,
       <div className="config-container">
         <DurationSelector changeDuration={this.changeDuration} defaultDuration={this.props.defaultDuration} />
         <Toggle label="Include intro chanting? (2 min)" onToggle={this.toggleIntroChanting} />
@@ -58,7 +36,6 @@ module.exports = React.createClass({
         <Toggle label="Include extended metta time? (4.5 min)" onToggle={this.toggleMetta} />
         <RaisedButton label="Start" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.lightGreen700} onClick={this.pressStart} />
       </div>
-    )
   },
 
   changeDuration: function (string) {

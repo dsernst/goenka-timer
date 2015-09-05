@@ -23,7 +23,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    return (
+    return 0,
       <div className='home-page'>
         <h1 className='title'>S.N. Goenka meditation timer</h1>
         <Paper zDepth={3} className="main-box" style={{padding: 20}}>
@@ -33,6 +33,5 @@ module.exports = React.createClass({
           }
         </Paper>
       </div>
-    )
   },
 })

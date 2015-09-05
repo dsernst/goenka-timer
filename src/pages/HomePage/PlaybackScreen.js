@@ -1,27 +1,14 @@
-require('howler')
+require('howler') /*global Howl*/
 var React = require('react')
 var _ = require('lodash')
 var mui = require('material-ui')
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
 var Duration = require('./Duration.js')
-
-function millisecondsToDurationString(milliseconds) {
-  var totalSeconds = Math.round(milliseconds / 1000)
-
-  var seconds = parseInt(totalSeconds % 60, 10)
-  var minutes = parseInt(totalSeconds / 60, 10) % 60
-  var hours = parseInt(totalSeconds / 3600, 10)
-
-  seconds = seconds < 10 ? '0' + seconds : seconds
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  hours = hours < 10 ? '0' + hours : hours
-
-  return hours + ':' + minutes + ':' + seconds
-}
+var audio = require('./audio-config.js')
 
 function nullTrackControl() {
-  console.log('no track playing')
+  // console.log('no track playing')
 }
 
 module.exports = React.createClass({
@@ -43,13 +30,12 @@ module.exports = React.createClass({
   },
 
   componentWillMount: function () {
-    console.log('this.state', this.state)
     this.setState({playlist: this.calculateStartTimes()})
     // this.state.sound.play()
   },
 
   render: function () {
-    return (
+    return 0,
       <div>
         <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
         {this.state.isPaused ?
@@ -58,7 +44,6 @@ module.exports = React.createClass({
         }
         <RaisedButton label="Stop" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.redA700} onClick={this.pressStop} />
       </div>
-    )
   },
 
   pressPause: function () {
@@ -126,27 +111,3 @@ module.exports = React.createClass({
   },
 
 })
-
-var audio = {
-  directory: '../audio/',
-  closingChanting: {
-    filename: 'closing-chanting.mp3',
-    length: ((2 * 60) + 53) * 1000,
-  },
-  closingMetta: {
-    filename: 'closing-metta.mp3',
-    length: 46 * 1000,
-  },
-  introChanting: {
-    filename: 'intro-chanting.mp3',
-    length: ((2 * 60) + 13) * 1000,
-  },
-  introInstructions: {
-    filename: 'intro-instructions.mp3',
-    length: 16 * 1000,
-  },
-  mettaIntro: {
-    filename: 'metta-intro.mp3',
-    length: ((4 * 60) + 27) * 1000,
-  },
-}
