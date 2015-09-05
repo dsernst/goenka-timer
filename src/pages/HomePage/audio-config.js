@@ -1,5 +1,5 @@
 module.exports = {
-  directory: '../audio/',
+  directory: '/audio/',
   closingChanting: {
     filename: 'closing-chanting.mp3',
     length: (2 * 60 + 53) * 1000,
