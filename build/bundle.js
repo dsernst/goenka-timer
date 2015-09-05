@@ -83,7 +83,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.body);
 });
 
-},{"./pages/HomePage":538,"material-ui":37,"react":535,"react-router":315,"react-tap-event-plugin":333}],2:[function(require,module,exports){
+},{"./pages/HomePage":541,"material-ui":37,"react":535,"react-router":315,"react-tap-event-plugin":333}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -61019,46 +61019,24 @@ module.exports=require(289)
 },{"./emptyFunction":492,"/Users/dsernst/Documents/goenka-timer/node_modules/react-countdown-timer/node_modules/react/lib/warning.js":289,"_process":2}],535:[function(require,module,exports){
 module.exports=require(290)
 },{"./lib/React":393,"/Users/dsernst/Documents/goenka-timer/node_modules/react-countdown-timer/node_modules/react/react.js":290}],536:[function(require,module,exports){
-var React = require('react');
-var mui = require('material-ui');
-var Toggle = mui.Toggle;
-var RaisedButton = mui.RaisedButton;
-var Colors = mui.Styles.Colors;
-var TimePicker = require('react-time-picker');
+var React = require('react')
+var mui = require('material-ui')
+var Toggle = mui.Toggle
+var RaisedButton = mui.RaisedButton
+var Colors = mui.Styles.Colors
+var DurationSelector = require('./DurationSelector.js')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
-    var minutes;
+    var minutes
     if (index === 0) {
-      minutes = value * 60;
+      minutes = value * 60
     } else if (index === 1) {
-      minutes = value;
+      minutes = value
     }
-    return memo + (minutes * 60 * 1000);
-  }, 0);
+    return memo + minutes * 60 * 1000
+  }, 0)
 }
-
-var DurationSelector = React.createClass({displayName: "DurationSelector",
-  getInitialState: function () {
-    return {
-      value: this.props.defaultDuration
-    };
-  },
-
-  render: function () {
-    return (
-      React.createElement("div", {className: "duration-setting"}, 
-        React.createElement("label", null, "How long would you like to sit?"), 
-        React.createElement(TimePicker, {value: this.state.value, onChange: this.adjustDuration, style: {border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}})
-      )
-    );
-  },
-
-  adjustDuration: function (string, moment) {
-    this.setState({value: string});
-    this.props.changeDuration(string);
-  }
-});
 
 module.exports = React.createClass({displayName: "exports",
   getInitialState: function () {
@@ -61066,102 +61044,123 @@ module.exports = React.createClass({displayName: "exports",
       duration: durationStringToMilliseconds(this.props.defaultDuration),
       introChanting: false,
       closingChanting: false,
-      metta: false
-    };
+      metta: false,
+    }
   },
 
   render: function () {
-    return (
+    return 0,
       React.createElement("div", {className: "config-container"}, 
         React.createElement(DurationSelector, {changeDuration: this.changeDuration, defaultDuration: this.props.defaultDuration}), 
         React.createElement(Toggle, {label: "Include intro chanting? (2 min)", onToggle: this.toggleIntroChanting}), 
         React.createElement(Toggle, {label: "Include closing chanting? (3 min)", onToggle: this.toggleClosingChanting}), 
         React.createElement(Toggle, {label: "Include extended metta time? (4.5 min)", onToggle: this.toggleMetta}), 
-        React.createElement(RaisedButton, {label: "Start", fullWidth: true, style: {margin: "20px 0"}, backgroundColor: Colors.lightGreen700, onClick: this.pressStart})
+        React.createElement(RaisedButton, {label: "Start", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.lightGreen700, onClick: this.pressStart})
       )
-    );
   },
 
   changeDuration: function (string) {
-    this.setState({duration: durationStringToMilliseconds(string)});
-    this.props.updateDurationString(string);
-    // console.log('changed duration:', string);
+    this.setState({duration: durationStringToMilliseconds(string)})
+    this.props.updateDurationString(string)
+    // console.log('changed duration:', string)
   },
 
   toggleIntroChanting: function (e, toggled) {
-    this.setState({introChanting: toggled});
-    // console.log('toggled introChanting:', toggled);
+    this.setState({introChanting: toggled})
+    // console.log('toggled introChanting:', toggled)
   },
 
   toggleClosingChanting: function (e, toggled) {
-    this.setState({closingChanting: toggled});
-    // console.log('toggled closingChanting:', toggled);
+    this.setState({closingChanting: toggled})
+    // console.log('toggled closingChanting:', toggled)
   },
 
   toggleMetta: function (e, toggled) {
-    this.setState({metta: toggled});
-    // console.log('toggled metta:', toggled);
+    this.setState({metta: toggled})
+    // console.log('toggled metta:', toggled)
   },
 
   pressStart: function () {
-    // console.log('pressed start:', this.state);
-    this.props.switchScreens({onConfigScreen: false}, this.state);
-  }
-});
-
-},{"material-ui":37,"react":535,"react-time-picker":345}],537:[function(require,module,exports){
-require('howler');
-var React = require('react');
-var CountdownTimer = require('react-countdown-timer');
-var _ = require('lodash');
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var Colors = mui.Styles.Colors;
-
-function millisecondsToDurationString(milliseconds) {
-  var totalSeconds = Math.round(milliseconds / 1000);
-
-  var seconds = parseInt(totalSeconds % 60, 10);
-  var minutes = parseInt(totalSeconds / 60, 10) % 60;
-  var hours = parseInt(totalSeconds / 3600, 10);
-
-  seconds = seconds < 10 ? '0' + seconds : seconds;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  hours = hours < 10 ? '0' + hours : hours;
-
-  return hours + ':' + minutes + ':' + seconds;
-}
-
-var PausedTimeDisplay = React.createClass({displayName: "PausedTimeDisplay",
-  render: function () {
-    return (
-      React.createElement("div", {className: "timer"}, millisecondsToDurationString(this.props.time))
-    );
-  }
+    // console.log('pressed start:', this.state)
+    this.props.switchScreens({onConfigScreen: false}, this.state)
+  },
 })
 
-var Duration = React.createClass({displayName: "Duration",
+},{"./DurationSelector.js":538,"material-ui":37,"react":535}],537:[function(require,module,exports){
+var React = require('react')
+var CountdownTimer = require('react-countdown-timer')
+
+function millisecondsToDurationString(milliseconds) {
+  var totalSeconds = Math.round(milliseconds / 1000)
+
+  var seconds = parseInt(totalSeconds % 60, 10)
+  var minutes = parseInt(totalSeconds / 60, 10) % 60
+  var hours = parseInt(totalSeconds / 3600, 10)
+
+  seconds = seconds < 10 ? '0' + seconds : seconds
+  minutes = minutes < 10 ? '0' + minutes : minutes
+  hours = hours < 10 ? '0' + hours : hours
+
+  return hours + ':' + minutes + ':' + seconds
+}
+
+module.exports = React.createClass({displayName: "exports",
   render: function () {
-    return (
+    return 0,
       React.createElement("div", null, 
         this.props.isPaused ?
-          React.createElement(PausedTimeDisplay, {time: this.props.time}) :
+          React.createElement("div", {className: "timer"}, millisecondsToDurationString(this.props.time)) :
           React.createElement(CountdownTimer, {initialTimeRemaining: this.props.time, tickCallback: this.countdown})
         
       )
-    );
   },
 
   countdown: function (timeRemaining) {
-    this.props.updateTimeRemaining(timeRemaining);
+    this.props.updateTimeRemaining(timeRemaining)
     if (timeRemaining <= this.props.playlist[0].time) {
-      this.props.playNextTrack();
+      this.props.playNextTrack()
     }
-  }
-});
+  },
+})
+
+
+},{"react":535,"react-countdown-timer":135}],538:[function(require,module,exports){
+var React = require('react')
+var TimePicker = require('react-time-picker')
+
+module.exports = React.createClass({displayName: "exports",
+  getInitialState: function () {
+    return {
+      value: this.props.defaultDuration,
+    }
+  },
+
+  render: function () {
+    return 0,
+      React.createElement("div", {className: "duration-setting"}, 
+        React.createElement("label", null, "How long would you like to sit?"), 
+        React.createElement(TimePicker, {value: this.state.value, onChange: this.adjustDuration, style: {border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}})
+      )
+  },
+
+  adjustDuration: function (string) {
+    this.setState({value: string})
+    this.props.changeDuration(string)
+  },
+})
+
+},{"react":535,"react-time-picker":345}],539:[function(require,module,exports){
+require('howler') /*global Howl*/
+var React = require('react')
+var _ = require('lodash')
+var mui = require('material-ui')
+var RaisedButton = mui.RaisedButton
+var Colors = mui.Styles.Colors
+var Duration = require('./Duration.js')
+var audio = require('./audio-config.js')
 
 function nullTrackControl() {
-  console.log('no track playing');
+  // console.log('no track playing')
 }
 
 module.exports = React.createClass({displayName: "exports",
@@ -61170,165 +61169,163 @@ module.exports = React.createClass({displayName: "exports",
       sound: {pause: nullTrackControl, play: nullTrackControl},
       isPaused: false,
       timeRemaining: this.props.settings.duration,
-    });
+    })
   },
 
   shouldComponentUpdate: function (nextProps, nextState) {
     // only re-render when this.state.isPaused changes
-    return nextState.isPaused !== this.state.isPaused;
+    return nextState.isPaused !== this.state.isPaused
   },
 
   updateTimeRemaining: function (millisecondsRemaining) {
-    this.setState({timeRemaining: millisecondsRemaining});
+    this.setState({timeRemaining: millisecondsRemaining})
   },
 
   componentWillMount: function () {
-    console.log('this.state', this.state);
-    this.setState({playlist: this.calculateStartTimes()});
-    // this.state.sound.play();
+    this.setState({playlist: this.calculateStartTimes()})
+    // this.state.sound.play()
   },
 
   render: function () {
-    return (
+    return 0,
       React.createElement("div", null, 
         React.createElement(Duration, {time: this.state.timeRemaining, isPaused: this.state.isPaused, updateTimeRemaining: this.updateTimeRemaining, playlist: this.state.playlist, playNextTrack: this.playNextTrack}), 
         this.state.isPaused ?
-          React.createElement(RaisedButton, {label: "Resume", fullWidth: true, style: {margin: "20px 0"}, backgroundColor: Colors.lightGreen700, onClick: this.pressResume}) :
-          React.createElement(RaisedButton, {label: "Pause", fullWidth: true, style: {margin: "20px 0"}, backgroundColor: Colors.amber700, onClick: this.pressPause}), 
+          React.createElement(RaisedButton, {label: "Resume", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.lightGreen700, onClick: this.pressResume}) :
+          React.createElement(RaisedButton, {label: "Pause", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.amber700, onClick: this.pressPause}), 
         
-        React.createElement(RaisedButton, {label: "Stop", fullWidth: true, style: {margin: "20px 0"}, backgroundColor: Colors.redA700, onClick: this.pressStop})
+        React.createElement(RaisedButton, {label: "Stop", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.redA700, onClick: this.pressStop})
       )
-    );
   },
 
   pressPause: function () {
-    this.state.sound.pause();
-    this.setState({isPaused: true});
+    this.state.sound.pause()
+    this.setState({isPaused: true})
   },
 
   pressResume: function () {
-    this.state.sound.play();
-    this.setState({isPaused: false});
+    this.state.sound.play()
+    this.setState({isPaused: false})
   },
 
   pressStop: function () {
-    this.state.sound.stop();
-    this.props.switchScreens({onConfigScreen: true}, {});
+    this.state.sound.stop()
+    this.props.switchScreens({onConfigScreen: true}, {})
   },
 
   calculateStartTimes: function () {
-    var duration = this.state.duration;
-    var startTimes = [];
+    var duration = this.state.duration
+    var startTimes = []
 
     startTimes.push({
       time: duration,
-      file: audio.directory + audio.introInstructions.filename
-    });
+      file: audio.directory + audio.introInstructions.filename,
+    })
 
     if (this.state.introChanting) {
       // delay introInstructions' start time
       startTimes[0].time -= audio.introChanting.length,
       startTimes.unshift({
         time: duration,
-        file: audio.directory + audio.introChanting.filename
+        file: audio.directory + audio.introChanting.filename,
       })
     }
 
     if (this.state.closingChanting) {
       startTimes.push({
         time: audio.closingChanting.length + audio.closingMetta.length,
-        file: audio.directory + audio.closingChanting.filename
+        file: audio.directory + audio.closingChanting.filename,
       })
     }
 
     if (this.state.metta) {
       startTimes.push({
         time: audio.mettaIntro.length + audio.closingMetta.length,
-        file: audio.directory + audio.mettaIntro.filename
-      });
+        file: audio.directory + audio.mettaIntro.filename,
+      })
       if (this.state.closingChanting) {
         // we need to start the closingChanting sooner, if we're doing extended metta
-        startTimes[startTimes.length - 2].time += audio.mettaIntro.length;
+        startTimes[startTimes.length - 2].time += audio.mettaIntro.length
       }
     }
 
     startTimes.push({
       time: audio.closingMetta.length,
-      file: audio.directory + audio.closingMetta.filename
-    });
+      file: audio.directory + audio.closingMetta.filename,
+    })
 
-    return startTimes;
+    return startTimes
   },
 
   playNextTrack: function () {
-    var track = this.state.playlist.shift();
-    this.setState({sound: new Howl({urls: [track.file]}).play()});
-  }
+    var track = this.state.playlist.shift()
+    this.setState({sound: new Howl({urls: [track.file]}).play()})
+  },
 
-});
+})
 
-var audio = {
-  directory: '../goenka-timer/audio/',
+},{"./Duration.js":537,"./audio-config.js":540,"howler":3,"lodash":4,"material-ui":37,"react":535}],540:[function(require,module,exports){
+module.exports = {
+  directory: '/audio/',
   closingChanting: {
     filename: 'closing-chanting.mp3',
-    length: ((2 * 60) + 53) * 1000
+    length: (2 * 60 + 53) * 1000,
   },
   closingMetta: {
     filename: 'closing-metta.mp3',
-    length: 46 * 1000
+    length: 46 * 1000,
   },
   introChanting: {
     filename: 'intro-chanting.mp3',
-    length: ((2 * 60) + 13) * 1000
+    length: (2 * 60 + 13) * 1000,
   },
   introInstructions: {
     filename: 'intro-instructions.mp3',
-    length: 16 * 1000
+    length: 16 * 1000,
   },
   mettaIntro: {
     filename: 'metta-intro.mp3',
-    length: ((4 * 60) + 27) * 1000
-  }
-};
+    length: (4 * 60 + 27) * 1000,
+  },
+}
 
-},{"howler":3,"lodash":4,"material-ui":37,"react":535,"react-countdown-timer":135}],538:[function(require,module,exports){
-var React = require('react');
-var _ = require('lodash');
-var mui = require('material-ui');
-var Paper = mui.Paper;
+},{}],541:[function(require,module,exports){
+var React = require('react')
+var _ = require('lodash')
+var mui = require('material-ui')
+var Paper = mui.Paper
 
-var ConfigScreen = require('./ConfigScreen');
-var PlaybackScreen = require('./PlaybackScreen');
+var ConfigScreen = require('./ConfigScreen')
+var PlaybackScreen = require('./PlaybackScreen')
 
 module.exports = React.createClass({displayName: "exports",
   getInitialState: function () {
     return {
       onConfigScreen: true,
-      durationString: '00:20'
-    };
+      durationString: '00:20',
+    }
   },
 
   updateDurationString: function (string) {
-    this.setState({durationString: string});
+    this.setState({durationString: string})
   },
 
   switchScreens: function (screen, configs) {
-    this.setState(_.extend(screen, configs));
+    this.setState(_.extend(screen, configs))
   },
 
   render: function () {
-    return (
+    return 0,
       React.createElement("div", {className: "home-page"}, 
         React.createElement("h1", {className: "title"}, "S.N. Goenka meditation timer"), 
-        React.createElement(Paper, {zDepth: 3, className: "main-box", style: {padding: "20px"}}, 
+        React.createElement(Paper, {zDepth: 3, className: "main-box", style: {padding: 20}}, 
           this.state.onConfigScreen ?
             React.createElement(ConfigScreen, {switchScreens: this.switchScreens, defaultDuration: this.state.durationString, updateDurationString: this.updateDurationString}) :
             React.createElement(PlaybackScreen, {switchScreens: this.switchScreens, settings: this.state})
           
         )
       )
-    );
-  }
-});
+  },
+})
 
-},{"./ConfigScreen":536,"./PlaybackScreen":537,"lodash":4,"material-ui":37,"react":535}]},{},[1]);
+},{"./ConfigScreen":536,"./PlaybackScreen":539,"lodash":4,"material-ui":37,"react":535}]},{},[1]);
