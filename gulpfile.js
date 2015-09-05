@@ -1,18 +1,18 @@
 var gulp = require('gulp');
-var browserify = require('browserify');
-var del = require('del');
-var reactify = require('reactify');
-var source = require('vinyl-source-stream');
 var webserver = require('gulp-webserver');
 var less = require('gulp-less');
-var path = require('path');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 var runsequence = require('gulp-run-sequence');
-var ncp = require('ncp').ncp;
 var gutil = require('gulp-util');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var reactify = require('reactify');
+var del = require('del');
+var path = require('path');
+var ncp = require('ncp').ncp;
 
-// Just some directories that we will be providing to `gulp.src` method calls.
+// Directories we will provide to `gulp.src`.
 var paths = {
   less: ['src/**/*.less', 'src/**/**/*.less', '!src/{style,style/**}'],
   css: ['build/**/*.css', '!build/{style,style/**}'],
@@ -24,34 +24,21 @@ var paths = {
   assets: ['./src/assets/**']
 };
 
-// Here is where we will be sending all our files to.
-var destPath = './build'
+// Where we send all our files to.
+var destPath = './build';
 
-/*
- * Handles an error event.
- */
+// Handles an error event.
 function swallowError(error) {
   gutil.log(error.message);
   this.emit('end');
 }
 
-/*
- * Deletes the `build` folder.
- */
-gulp.task('clear-build', function (done) {
+// Deletes the `build` folder.
+gulp.task('clean', function (done) {
   del(['build'], done);
 });
 
-/*
- * Clears out all the stuff that have been generated during development.
- */
-gulp.task('clean', function(done) {
-  return runsequence(/*'clear-material', */'clear-build', done);
-});
-
-/*
- * Compiles all LESS style sheets that are "local" to specific modules.
- */
+// Compiles all LESS style sheets that are "local" to specific modules.
 gulp.task('less', function () {
   return gulp.src(paths.less)
     .pipe(less({
@@ -61,9 +48,7 @@ gulp.task('less', function () {
     .pipe(gulp.dest(destPath));
 });
 
-/*
- * Compiles the global styles (all written in LESS).
- */
+// Compiles the global styles (all written in LESS).
 gulp.task('style', function () {
   return gulp.src(paths.style)
     .pipe(less({
@@ -73,10 +58,8 @@ gulp.task('style', function () {
     .pipe(gulp.dest(path.join(destPath, 'style')));
 });
 
-/*
- * Bundles the scripts, using Browserify.
- */
-gulp.task('js', function() {
+// Bundles the scripts, using Browserify.
+gulp.task('js', function () {
   return browserify(paths.appjs)
     .transform(reactify)
     .bundle()
@@ -89,18 +72,14 @@ gulp.task('js', function() {
     .pipe(gulp.dest(destPath));
 });
 
-/*
- * Copies the index.html from the source directory to the build directory.
- */
+// Copies the index.html from the source directory to the build directory.
 gulp.task('copy-index', function () {
   return gulp
     .src(paths.indexhtml)
     .pipe(gulp.dest(destPath));
 });
 
-/*
- * Injects the "global" styles.
- */
+// Injects the "global" styles.
 gulp.task('inject-index', function () {
   return gulp
     .src([ path.join(destPath, 'index.html') ])
@@ -116,10 +95,8 @@ gulp.task('inject-index', function () {
     .pipe(gulp.dest(destPath));
 });
 
-/*
- * Copies the index.html from the source directory to the build directory, and
- * injects link tags into the HTML.
- */
+// Copies the index.html from the source directory to the build directory, and
+// injects link tags into the HTML.
 gulp.task('index', function (done) {
   return runsequence('copy-index', 'inject-index', done);
 });
@@ -129,15 +106,12 @@ gulp.task('copy-assets', function () {
       .pipe(gulp.dest(destPath));
 });
 
-/*
- * Compiles the global styles, local styles, and the JavaSript/JSX code, and
- * puts the compiled code into the `build` folder. Injects the necessary
- * dpeendencies into the HTML.
- */
+// Compiles the global styles, local styles, and the JavaSript/JSX code, and
+// puts the compiled code into the `build` folder. Injects the necessary
+// dependencies into the HTML.
 gulp.task('build', function (done) {
   return runsequence(
     'clean',
-    // 'copy-material',
     ['style', 'less', 'js'],
     'index',
     'copy-assets',
@@ -145,33 +119,25 @@ gulp.task('build', function (done) {
   );
 });
 
-/*
- * Compiles the local LESS styles and updates the index.
- */
+// Compiles the local LESS styles and updates the index.
 gulp.task('less-and-index', function (done) {
   return runsequence('less', 'index', done);
 });
 
-/*
- * Compiles the global LESS styles and updates the index.
- */
+// Compiles the global LESS styles and updates the index.
 gulp.task('style-and-index', function (done) {
   return runsequence('style', 'index', done);
 });
 
-/*
- * Watch for changes in files.
- */
-gulp.task('watch', function() {
+// Watch for changes in files.
+gulp.task('watch', function () {
   gulp.watch(paths.style, ['style-and-index']);
   gulp.watch(paths.less, ['less-and-index']);
   gulp.watch(paths.js.concat(paths.appjs), ['js']);
   gulp.watch(paths.indexhtml, ['index']);
 });
 
-/*
- * Run the server.
- */
+// Serve build over localhost:8000.
 gulp.task('server', function () {
   return gulp.src(destPath)
     .pipe(webserver({
@@ -180,42 +146,16 @@ gulp.task('server', function () {
     }));
 });
 
-// /*
-//  * Deletes the `src/style/material-ui` folder.
-//  */
-// gulp.task('clear-material', function (done) {
-//   del(['src/style/material-ui'], done);
-// });
-
-
-//  * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder
-//  * without checking (and then deleting) for an exsting folder in the
-//  * destination.
-
-// gulp.task('copy-material-no-clear', function (done) {
-//   var source =
-//     path.join(__dirname, 'node_modules', 'material-ui', 'src', 'less');
-//   var dest = path.join(__dirname, 'src', 'style', 'material-ui');
-//   ncp(source, dest, done);
-// });
-
-/*
- * Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder,
- * assuming that it's been properly installed.
- */
+// Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder, assuming that it's been properly installed.
 gulp.task('copy-material', function (done) {
   return runsequence('clear-material', 'copy-material-no-clear', done);
 });
 
-/*
- * The default is meant for development. Watches for changes, runs the builds,
- * and fires up a web server. Also opens a new browser tab to the application.
- */
+// The default for development: `npm start` calls this.
+// Watches for changes, runs the builds, and fires up a web server. Also opens a new browser tab to the application.
 gulp.task('develop', function () {
   return runsequence('build', ['watch', 'server']);
 });
 
-/*
- * An alias to the `build` task.
- */
+// An alias to the `build` task.
 gulp.task('default', ['build']);

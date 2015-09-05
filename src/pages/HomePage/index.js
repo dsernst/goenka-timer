@@ -1,38 +1,37 @@
-var React = require('react');
-var _ = require('lodash');
-var mui = require('material-ui');
-var Paper = mui.Paper;
+var React = require('react')
+var _ = require('lodash')
+var mui = require('material-ui')
+var Paper = mui.Paper
 
-var ConfigScreen = require('./ConfigScreen');
-var PlaybackScreen = require('./PlaybackScreen');
+var ConfigScreen = require('./ConfigScreen')
+var PlaybackScreen = require('./PlaybackScreen')
 
 module.exports = React.createClass({
   getInitialState: function () {
     return {
       onConfigScreen: true,
-      durationString: '00:20'
-    };
+      durationString: '00:20',
+    }
   },
 
   updateDurationString: function (string) {
-    this.setState({durationString: string});
+    this.setState({durationString: string})
   },
 
   switchScreens: function (screen, configs) {
-    this.setState(_.extend(screen, configs));
+    this.setState(_.extend(screen, configs))
   },
 
   render: function () {
-    return (
+    return 0,
       <div className='home-page'>
         <h1 className='title'>S.N. Goenka meditation timer</h1>
-        <Paper zDepth={3} className="main-box" style={{padding: "20px"}}>
+        <Paper zDepth={3} className="main-box" style={{padding: 20}}>
           {this.state.onConfigScreen ?
             <ConfigScreen switchScreens={this.switchScreens} defaultDuration={this.state.durationString} updateDurationString={this.updateDurationString} /> :
             <PlaybackScreen switchScreens={this.switchScreens} settings={this.state} />
           }
         </Paper>
       </div>
-    );
-  }
-});
+  },
+})
