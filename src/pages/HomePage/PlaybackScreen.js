@@ -1,10 +1,10 @@
 require('howler')
 var React = require('react')
-var CountdownTimer = require('react-countdown-timer')
 var _ = require('lodash')
 var mui = require('material-ui')
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
+var Duration = require('./Duration.js')
 
 function millisecondsToDurationString(milliseconds) {
   var totalSeconds = Math.round(milliseconds / 1000)
@@ -19,34 +19,6 @@ function millisecondsToDurationString(milliseconds) {
 
   return hours + ':' + minutes + ':' + seconds
 }
-
-var PausedTimeDisplay = React.createClass({
-  render: function () {
-    return (
-      <div className="timer">{millisecondsToDurationString(this.props.time)}</div>
-    )
-  },
-})
-
-var Duration = React.createClass({
-  render: function () {
-    return (
-      <div>
-        {this.props.isPaused ?
-          <PausedTimeDisplay time={this.props.time} /> :
-          <CountdownTimer initialTimeRemaining={this.props.time} tickCallback={this.countdown} />
-        }
-      </div>
-    )
-  },
-
-  countdown: function (timeRemaining) {
-    this.props.updateTimeRemaining(timeRemaining)
-    if (timeRemaining <= this.props.playlist[0].time) {
-      this.props.playNextTrack()
-    }
-  },
-})
 
 function nullTrackControl() {
   console.log('no track playing')
