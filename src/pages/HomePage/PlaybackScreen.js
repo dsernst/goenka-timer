@@ -6,6 +6,7 @@ var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
 var Duration = require('./Duration.js')
 var audio = require('./audio-config.js')
+var Footer = require('./Footer.jsx')
 
 function nullTrackControl() {
   // console.log('no track playing')
@@ -43,6 +44,7 @@ module.exports = React.createClass({
           <RaisedButton label="Pause" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.amber700} onClick={this.pressPause} />
         }
         <RaisedButton label="Stop" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.redA700} onClick={this.pressStop} />
+        <Footer />
       </div>
   },
 
