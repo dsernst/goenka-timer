@@ -1,64 +1,64 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var React = require('react');
-var Router = require('react-router');
-var mui = require('material-ui');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-var ThemeManager = new mui.Styles.ThemeManager();
+var React = require('react')
+var Router = require('react-router')
+var mui = require('material-ui')
+var injectTapEventPlugin = require('react-tap-event-plugin')
+var ThemeManager = new mui.Styles.ThemeManager()
 
 // A lot of the code is auto-generated. However, fiddling around with it
 // shouldn't be a catastrophic failure. Just that you'd need to know your way
 // around a little. However, **BE CAREFUL WHILE DELETING SOME OF THE COMMENTS IN
-// THIS FILE; THE AUTO-GENERATORS RELY ON SOME OF THEM**.
+// THIS FILE THE AUTO-GENERATORS RELY ON SOME OF THEM**.
 
 // inject:pagerequire
-var HomePage = require('./pages/HomePage');
+var HomePage = require('./pages/HomePage')
 // endinject
 
-var menuItems = [
-  // inject:menuitems
-  { payload: 'home', text: 'goenka-timer' },
-  // endinject
-];
+// var menuItems = [
+//   // inject:menuitems
+//   { payload: 'home', text: 'goenka-timer' },
+//   // endinject
+// ]
 
-var titles = {
-  // inject:titles
-  '/home': 'goenka-timer',
-  // endinject
-};
+// var titles = {
+//   // inject:titles
+//   '/home': 'goenka-timer',
+//   // endinject
+// }
 
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
+var Route = Router.Route
+var DefaultRoute = Router.DefaultRoute
+var RouteHandler = Router.RouteHandler
 
-var AppCanvas = mui.AppCanvas;
+var AppCanvas = mui.AppCanvas
 
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 var Master = React.createClass({displayName: "Master",
   mixins: [Router.State],
 
   // Important!
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: React.PropTypes.object,
   },
 
   // Important!
-  getChildContext() {
+  getChildContext: function () {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
+      muiTheme: ThemeManager.getCurrentTheme(),
+    }
   },
 
   componentWillMount: function () {
-    ThemeManager.setTheme(ThemeManager.types.DARK);
+    ThemeManager.setTheme(ThemeManager.types.DARK)
   },
 
   _onMenuIconButtonTouchTap: function () {
-    this.refs.leftNav.toggle();
+    this.refs.leftNav.toggle()
   },
 
   render: function () {
-    return (
+    return 0,
       React.createElement(AppCanvas, {predefinedLayout: 1}, 
 
         React.createElement("div", {className: "mui-app-content-canvas"}, 
@@ -66,9 +66,8 @@ var Master = React.createClass({displayName: "Master",
         )
 
       )
-    );
-  }
-});
+  },
+})
 
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: Master}, 
@@ -77,11 +76,11 @@ var routes = (
     /* endinject */
     React.createElement(DefaultRoute, {handler: HomePage})
   )
-);
+)
 
 Router.run(routes, function (Handler) {
-  React.render(React.createElement(Handler, null), document.body);
-});
+  React.render(React.createElement(Handler, null), document.body)
+})
 
 },{"./pages/HomePage":541,"material-ui":37,"react":535,"react-router":315,"react-tap-event-plugin":333}],2:[function(require,module,exports){
 // shim for using process in browser
@@ -61024,7 +61023,7 @@ var mui = require('material-ui')
 var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var DurationSelector = require('./DurationSelector.js')
+var DurationSelector = require('./DurationSelector.jsx')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
@@ -61086,7 +61085,7 @@ module.exports = React.createClass({displayName: "exports",
   },
 })
 
-},{"./DurationSelector.js":538,"material-ui":37,"react":535}],537:[function(require,module,exports){
+},{"./DurationSelector.jsx":538,"material-ui":37,"react":535}],537:[function(require,module,exports){
 var React = require('react')
 var CountdownTimer = require('react-countdown-timer')
 
@@ -61136,10 +61135,36 @@ module.exports = React.createClass({displayName: "exports",
   },
 
   render: function () {
+    var inputStyle = {
+      fontSize: 36,
+      padding: 5,
+      background: 'none',
+      color: '#f6f6f6',
+      border: 'none',
+    }
+
+    var timePickerStyle = {
+      border: 'none',
+      width: 300,
+      position: 'relative',
+      top: '-10px'
+    }
+
+    var arrowStyle = {
+      color: '#a6a6a6',
+      fontSize: 36
+    }
+
+    var arrowHoverStyle = {
+      color: '#f6f6f6',
+      background: 'none',
+      transition: 'color .1s ease-in-out'
+    }
+
     return 0,
-      React.createElement("div", {className: "duration-setting"}, 
-        React.createElement("label", null, "How long would you like to sit?"), 
-        React.createElement(TimePicker, {value: this.state.value, onChange: this.adjustDuration, style: {border: 'none', float: 'right', width: '300px', position: 'relative', top: '-10px'}})
+      React.createElement("div", {className: "duration-config"}, 
+        React.createElement("h3", null, "How long would you like to sit?"), 
+        React.createElement(TimePicker, {value: this.state.value, onChange: this.adjustDuration, style: timePickerStyle, inputProps: {type: 'tel'}, inputStyle: inputStyle, arrowStyle: arrowStyle, arrowOverStyle: arrowHoverStyle})
       )
   },
 
@@ -61148,6 +61173,7 @@ module.exports = React.createClass({displayName: "exports",
     this.props.changeDuration(string)
   },
 })
+
 
 },{"react":535,"react-time-picker":345}],539:[function(require,module,exports){
 require('howler') /*global Howl*/
@@ -61302,7 +61328,7 @@ module.exports = React.createClass({displayName: "exports",
   getInitialState: function () {
     return {
       onConfigScreen: true,
-      durationString: '00:20',
+      durationString: '0:20',
     }
   },
 
@@ -61317,7 +61343,7 @@ module.exports = React.createClass({displayName: "exports",
   render: function () {
     return 0,
       React.createElement("div", {className: "home-page"}, 
-        React.createElement("h1", {className: "title"}, "S.N. Goenka meditation timer"), 
+        React.createElement("h1", {className: "title"}, React.createElement("a", {href: "https://www.dhamma.org", target: "_blank"}, "S.N. Goenka"), " meditation timer"), 
         React.createElement(Paper, {zDepth: 3, className: "main-box", style: {padding: 20}}, 
           this.state.onConfigScreen ?
             React.createElement(ConfigScreen, {switchScreens: this.switchScreens, defaultDuration: this.state.durationString, updateDurationString: this.updateDurationString}) :
