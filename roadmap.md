@@ -9,7 +9,6 @@
 
 -------- THEN --------
 
-- [ ] add about page
 - [ ] unidirectional data flow
 - [ ] remember settings between sessions
 - [ ] display generated playlist on config screen
