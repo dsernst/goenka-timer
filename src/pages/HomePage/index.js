@@ -1,10 +1,9 @@
 var React = require('react')
 var _ = require('lodash')
-var mui = require('material-ui')
-var Paper = mui.Paper
+var Paper = require('material-ui').Paper
 
-var ConfigScreen = require('./ConfigScreen')
-var PlaybackScreen = require('./PlaybackScreen')
+var ConfigScreen = require('./ConfigScreen.jsx')
+var PlaybackScreen = require('./PlaybackScreen.jsx')
 
 module.exports = React.createClass({
   getInitialState: function () {

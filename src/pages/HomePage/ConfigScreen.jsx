@@ -1,9 +1,9 @@
 var React = require('react')
+var DurationSelector = require('./DurationSelector.jsx')
 var mui = require('material-ui')
 var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var DurationSelector = require('./DurationSelector.jsx')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
@@ -41,26 +41,21 @@ module.exports = React.createClass({
   changeDuration: function (string) {
     this.setState({duration: durationStringToMilliseconds(string)})
     this.props.updateDurationString(string)
-    // console.log('changed duration:', string)
   },
 
   toggleIntroChanting: function (e, toggled) {
     this.setState({introChanting: toggled})
-    // console.log('toggled introChanting:', toggled)
   },
 
   toggleClosingChanting: function (e, toggled) {
     this.setState({closingChanting: toggled})
-    // console.log('toggled closingChanting:', toggled)
   },
 
   toggleMetta: function (e, toggled) {
     this.setState({metta: toggled})
-    // console.log('toggled metta:', toggled)
   },
 
   pressStart: function () {
-    // console.log('pressed start:', this.state)
     this.props.switchScreens({onConfigScreen: false}, this.state)
   },
 })
