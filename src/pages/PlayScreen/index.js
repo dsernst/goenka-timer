@@ -11,20 +11,18 @@ var Navigation = require('react-router').Navigation
 
 var hMM2ms = require('./hMM-to-ms.js')
 
-var connect = require('react-redux').connect
-function select (state) {
-  return state
-}
-
-module.exports = connect(select)(React.createClass({
+function select (state) {return state}
+module.exports = require('react-redux').connect(select)(React.createClass({
   mixins: [Navigation],
 
   getInitialState: function () {
-
+    console.log('props!', this.props)
+    var durationAsMs = hMM2ms(this.props.duration)
     return {
       sound: {pause: _.noop, play: _.noop},
       isPaused: false,
-      timeRemaining: hMM2ms(this.props.duration),
+      timeRemaining: durationAsMs,
+      playlist: this.calculatePlaylist(durationAsMs),
     }
 
   },
@@ -38,11 +36,12 @@ module.exports = connect(select)(React.createClass({
     this.setState({timeRemaining: millisecondsRemaining})
   },
 
-  componentWillMount: function () {
-    this.setState({playlist: this.calculateStartTimes()})
-  },
+  // componentWillMount: function () {
+  //   this.setState({playlist: this.calculatePlaylist()})
+  // },
 
   render: function () {
+    console.log(this.state)
     return 0,
       <div className="play-screen">
         <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
@@ -66,29 +65,29 @@ module.exports = connect(select)(React.createClass({
   },
 
   pressStop: function () {
-    // this.state.sound.stop()
+    this.state.sound.stop()
     this.transitionTo('/')
   },
 
-  calculateStartTimes: function () {
-    var duration = this.state.duration
+  calculatePlaylist: function (totalTime) {
+    console.log('calculatePlaylist for totalTime=', totalTime)
     var startTimes = []
 
     startTimes.push({
-      time: duration,
+      time: totalTime,
       file: audio.directory + audio.introInstructions.filename,
     })
 
-    if (this.props.introChanting) {
+    if (this.props.intro) {
       // delay introInstructions' start time
       startTimes[0].time -= audio.introChanting.length,
       startTimes.unshift({
-        time: duration,
+        time: totalTime,
         file: audio.directory + audio.introChanting.filename,
       })
     }
 
-    if (this.props.closingChanting) {
+    if (this.props.closing) {
       startTimes.push({
         time: audio.closingChanting.length + audio.closingMetta.length,
         file: audio.directory + audio.closingChanting.filename,
@@ -100,8 +99,8 @@ module.exports = connect(select)(React.createClass({
         time: audio.mettaIntro.length + audio.closingMetta.length,
         file: audio.directory + audio.mettaIntro.filename,
       })
-      if (this.props.closingChanting) {
-        // we need to start the closingChanting sooner, if we're doing extended metta
+      if (this.props.closing) {
+        // if we're doing extended metta, we need to start the closingChanting sooner
         startTimes[startTimes.length - 2].time += audio.mettaIntro.length
       }
     }
