@@ -7,14 +7,26 @@ var Colors = mui.Styles.Colors
 var Duration = require('./Duration.jsx')
 var audio = require('./audio-config.js')
 var Footer = require('./Footer.jsx')
+var Navigation = require('react-router').Navigation
 
-module.exports = React.createClass({
+var hMM2ms = require('./hMM-to-ms.js')
+
+var connect = require('react-redux').connect
+function select (state) {
+  return state
+}
+
+module.exports = connect(select)(React.createClass({
+  mixins: [Navigation],
+
   getInitialState: function () {
-    return _.extend(this.props.settings, {
+
+    return {
       sound: {pause: _.noop, play: _.noop},
       isPaused: false,
-      timeRemaining: this.props.settings.duration,
-    })
+      timeRemaining: hMM2ms(this.props.duration),
+    }
+
   },
 
   shouldComponentUpdate: function (nextProps, nextState) {
@@ -54,8 +66,8 @@ module.exports = React.createClass({
   },
 
   pressStop: function () {
-    this.state.sound.stop()
-    this.props.switchScreens({onConfigScreen: true}, {})
+    // this.state.sound.stop()
+    this.transitionTo('/')
   },
 
   calculateStartTimes: function () {
@@ -67,7 +79,7 @@ module.exports = React.createClass({
       file: audio.directory + audio.introInstructions.filename,
     })
 
-    if (this.state.introChanting) {
+    if (this.props.introChanting) {
       // delay introInstructions' start time
       startTimes[0].time -= audio.introChanting.length,
       startTimes.unshift({
@@ -76,19 +88,19 @@ module.exports = React.createClass({
       })
     }
 
-    if (this.state.closingChanting) {
+    if (this.props.closingChanting) {
       startTimes.push({
         time: audio.closingChanting.length + audio.closingMetta.length,
         file: audio.directory + audio.closingChanting.filename,
       })
     }
 
-    if (this.state.metta) {
+    if (this.props.metta) {
       startTimes.push({
         time: audio.mettaIntro.length + audio.closingMetta.length,
         file: audio.directory + audio.mettaIntro.filename,
       })
-      if (this.state.closingChanting) {
+      if (this.props.closingChanting) {
         // we need to start the closingChanting sooner, if we're doing extended metta
         startTimes[startTimes.length - 2].time += audio.mettaIntro.length
       }
@@ -107,4 +119,4 @@ module.exports = React.createClass({
     this.setState({sound: new Howl({urls: [track.file]}).play()})
   },
 
-})
+}))
