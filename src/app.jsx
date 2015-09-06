@@ -57,7 +57,7 @@ var PlayScreen = require('./pages/PlayScreen')
 var Route = Router.Route
 var DefaultRoute = Router.DefaultRoute
 
-var routes = (
+var routes = ( //eslint-disable-line no-extra-parens
   <Route name='app' path='/' handler={Master}>
     <DefaultRoute handler={ConfigScreen} />
     <Route name='play' handler={PlayScreen} />
