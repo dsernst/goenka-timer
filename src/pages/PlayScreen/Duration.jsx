@@ -1,27 +1,15 @@
 var React = require('react')
 var CountdownTimer = require('react-countdown-timer')
 
-function millisecondsToDurationString(milliseconds) {
-  var totalSeconds = Math.round(milliseconds / 1000)
-
-  var seconds = parseInt(totalSeconds % 60, 10)
-  var minutes = parseInt(totalSeconds / 60, 10) % 60
-  var hours = parseInt(totalSeconds / 3600, 10)
-
-  seconds = seconds < 10 ? '0' + seconds : seconds
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  hours = hours < 10 ? '0' + hours : hours
-
-  return hours + ':' + minutes + ':' + seconds
-}
+var ms2hMM = require('./hMM-to-ms.js').reverse
 
 module.exports = React.createClass({
   render: function () {
     return 0,
       <div>
-        {this.props.isPaused ?
-          <div className="timer">{millisecondsToDurationString(this.props.time)}</div> :
-          <CountdownTimer initialTimeRemaining={this.props.time} tickCallback={this.countdown} />
+        {this.props.isPlaying ?
+          <CountdownTimer initialTimeRemaining={this.props.time} tickCallback={this.countdown} /> :
+          <div className="timer">{ms2hMM(this.props.time)}</div>
         }
       </div>
   },
