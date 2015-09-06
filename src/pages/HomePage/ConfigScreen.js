@@ -3,7 +3,7 @@ var mui = require('material-ui')
 var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var DurationSelector = require('./DurationSelector.js')
+var DurationSelector = require('./DurationSelector.jsx')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
