@@ -6,10 +6,7 @@ var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
 
-function select(state) {
-  return state
-}
-module.exports = require('react-redux').connect(select)(React.createClass({
+module.exports = require('react-redux').connect(require('lodash').identity)(React.createClass({
   mixins: [require('react-router').Navigation],
 
   shouldComponentUpdate() {
