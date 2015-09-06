@@ -1,63 +1,63 @@
-var React = require('react');
-var Router = require('react-router');
-var mui = require('material-ui');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-var ThemeManager = new mui.Styles.ThemeManager();
+var React = require('react')
+var Router = require('react-router')
+var mui = require('material-ui')
+var injectTapEventPlugin = require('react-tap-event-plugin')
+var ThemeManager = new mui.Styles.ThemeManager()
 
 // A lot of the code is auto-generated. However, fiddling around with it
 // shouldn't be a catastrophic failure. Just that you'd need to know your way
 // around a little. However, **BE CAREFUL WHILE DELETING SOME OF THE COMMENTS IN
-// THIS FILE; THE AUTO-GENERATORS RELY ON SOME OF THEM**.
+// THIS FILE THE AUTO-GENERATORS RELY ON SOME OF THEM**.
 
 // inject:pagerequire
-var HomePage = require('./pages/HomePage');
+var HomePage = require('./pages/HomePage')
 // endinject
 
-var menuItems = [
-  // inject:menuitems
-  { payload: 'home', text: 'goenka-timer' },
-  // endinject
-];
+// var menuItems = [
+//   // inject:menuitems
+//   { payload: 'home', text: 'goenka-timer' },
+//   // endinject
+// ]
 
-var titles = {
-  // inject:titles
-  '/home': 'goenka-timer',
-  // endinject
-};
+// var titles = {
+//   // inject:titles
+//   '/home': 'goenka-timer',
+//   // endinject
+// }
 
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
+var Route = Router.Route
+var DefaultRoute = Router.DefaultRoute
+var RouteHandler = Router.RouteHandler
 
-var AppCanvas = mui.AppCanvas;
+var AppCanvas = mui.AppCanvas
 
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 var Master = React.createClass({
   mixins: [Router.State],
 
   // Important!
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: React.PropTypes.object,
   },
 
   // Important!
-  getChildContext() {
+  getChildContext: function () {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
+      muiTheme: ThemeManager.getCurrentTheme(),
+    }
   },
 
   componentWillMount: function () {
-    ThemeManager.setTheme(ThemeManager.types.DARK);
+    ThemeManager.setTheme(ThemeManager.types.DARK)
   },
 
   _onMenuIconButtonTouchTap: function () {
-    this.refs.leftNav.toggle();
+    this.refs.leftNav.toggle()
   },
 
   render: function () {
-    return (
+    return 0,
       <AppCanvas predefinedLayout={1}>
 
         <div className='mui-app-content-canvas'>
@@ -65,9 +65,8 @@ var Master = React.createClass({
         </div>
 
       </AppCanvas>
-    );
-  }
-});
+  },
+})
 
 var routes = (
   <Route name='app' path='/' handler={Master}>
@@ -76,8 +75,8 @@ var routes = (
     {/* endinject */}
     <DefaultRoute handler={HomePage} />
   </Route>
-);
+)
 
 Router.run(routes, function (Handler) {
-  React.render(<Handler />, document.body);
-});
+  React.render(<Handler />, document.body)
+})

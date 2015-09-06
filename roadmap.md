@@ -1,11 +1,9 @@
 # Goenka timer roadmap
 
--------- NEXT --------
-
-- [ ] mobile support
-  - [x] worked on Preston's Android
-  - [ ] Did not render on my iphone
-
+- [ ] Cleanup duration selector UI
+  - bigger buttons
+  - show Hour, Minute
+  - Use sliders on mobile
 
 -------- THEN --------
 
