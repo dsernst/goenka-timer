@@ -1,11 +1,11 @@
 # Goenka timer roadmap
 
-- [ ] mobile support
-- [ ] remember settings between sessions
-- [ ] add about page
-- [ ] automatic Beeminder integration
+-------- THEN --------
+
 - [ ] unidirectional data flow
-- [ ] randomized tracks
+- [ ] remember settings between sessions
 - [ ] display generated playlist on config screen
 - [ ] custom metta time
+- [ ] randomized tracks
+- [ ] automatic Beeminder integration
 - [ ] integrate with Carl's Sangha map
