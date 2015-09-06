@@ -6,7 +6,7 @@ var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
 
-function select (state) {
+function select(state) {
   return state
 }
 module.exports = require('react-redux').connect(select)(React.createClass({
@@ -20,7 +20,7 @@ module.exports = require('react-redux').connect(select)(React.createClass({
     return 0,
       <div className="config">
 
-        <DurationSelector changeDuration={function (string) {
+        <DurationSelector setDuration={function (string) {
             this.props.dispatch({type: 'SET_DURATION', payload: string})
           }.bind(this)} defaultDuration={this.props.duration} />
 

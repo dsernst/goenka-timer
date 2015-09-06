@@ -1,58 +1,73 @@
-.home-page {
-  // Feel free to add all your styles here.
-  //
-  // Since the styling language is not CSS, but LESS, you can nest all your
-  // styles here. For more info on LESS, please refer to
-  // http://lesscss.org/features/
+.config > * {
+  margin-bottom: 20px;
+}
 
-  margin-top: 20%;
+.duration {
 
-  .main-box {
+  text-align: center;
 
-    padding: 35px;
+  h3 {
+    text-align: left;
+    margin-top: 0;
+  }
 
-    .duration-config {
+  span {
+    display: none; // hide the : divider
+  }
 
-      text-align: center;
+  > div { // the whole time-picker
+    border: none !important;
+    width: 250px !important;
 
-      h3 {
-        text-align: left;
-        margin-top: 0;
+    > div { // each box
+
+      span { // the arrows
+        color: #a6a6a6;
+        font-size: 36px;
+        transition: color .1s ease-in-out;
+
+        &:hover {
+          color: #f6f6f6;
+          background: none !important;
+        }
+      }
+
+      .unit-label { // add H and M labels
+        font-size: 21px;
+        position: relative;
+        bottom: 81px;
+      }
+
+      &:first-child:after {
+        .unit-label; // add H and M labels
+        content: 'h';
+        left: 28px;
+      }
+      &:last-child:after {
+        .unit-label; // add H and M labels
+        content: 'm';
+        left: 36px;
       }
 
       input {
         z-index: 2; // so our :after labels don't block the input:hover
+        font-size: 36px;
+        padding: 5px;
+        background: none;
+        color: #f6f6f6;
+        border: none;
+        transition: background-color .2s ease-in-out;
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.3) !important;
-          transition: background-color .15s ease-in-out;
         }
+
       }
 
-      span {
-        display: none; // hide the : divider
-      }
 
-      div > div { // the first div is the whole time-picker, > div is each box
-
-        .time-label {
-          font-size: 21px;
-          position: relative;
-          bottom: 81px;
-        }
-
-        &:first-child:after {
-          .time-label;
-          content: 'h';
-          left: 28px;
-        }
-        &:last-child:after {
-          .time-label;
-          content: 'm';
-          left: 36px;
-        }
-      }
-    }
   }
 
+
+
+  }
 }

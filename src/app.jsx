@@ -38,7 +38,7 @@ var Master = React.createClass({
   render: function () {
     var Paper = mui.Paper
     return 0,
-      <div className='home-page'>
+      <div className='app'>
         <h1 className='title'><a href="https://www.dhamma.org" target="_blank">S.N. Goenka</a> meditation timer</h1>
         <Paper zDepth={3} className="main-box">
 
