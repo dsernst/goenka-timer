@@ -82,7 +82,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.body)
 })
 
-},{"./pages/HomePage":541,"material-ui":37,"react":535,"react-router":315,"react-tap-event-plugin":333}],2:[function(require,module,exports){
+},{"./pages/HomePage":542,"material-ui":37,"react":535,"react-router":315,"react-tap-event-plugin":333}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -61019,11 +61019,11 @@ module.exports=require(289)
 module.exports=require(290)
 },{"./lib/React":393,"/Users/dsernst/Documents/goenka-timer/node_modules/react-countdown-timer/node_modules/react/react.js":290}],536:[function(require,module,exports){
 var React = require('react')
+var DurationSelector = require('./DurationSelector.jsx')
 var mui = require('material-ui')
 var Toggle = mui.Toggle
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var DurationSelector = require('./DurationSelector.jsx')
 
 function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, value, index) {
@@ -61054,33 +61054,28 @@ module.exports = React.createClass({displayName: "exports",
         React.createElement(Toggle, {label: "Include intro chanting? (2 min)", onToggle: this.toggleIntroChanting}), 
         React.createElement(Toggle, {label: "Include closing chanting? (3 min)", onToggle: this.toggleClosingChanting}), 
         React.createElement(Toggle, {label: "Include extended metta time? (4.5 min)", onToggle: this.toggleMetta}), 
-        React.createElement(RaisedButton, {label: "Start", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.lightGreen700, onClick: this.pressStart})
+        React.createElement(RaisedButton, {label: "Start", fullWidth: true, style: {margin: '20px 0 0'}, backgroundColor: Colors.lightGreen700, onClick: this.pressStart})
       )
   },
 
   changeDuration: function (string) {
     this.setState({duration: durationStringToMilliseconds(string)})
     this.props.updateDurationString(string)
-    // console.log('changed duration:', string)
   },
 
   toggleIntroChanting: function (e, toggled) {
     this.setState({introChanting: toggled})
-    // console.log('toggled introChanting:', toggled)
   },
 
   toggleClosingChanting: function (e, toggled) {
     this.setState({closingChanting: toggled})
-    // console.log('toggled closingChanting:', toggled)
   },
 
   toggleMetta: function (e, toggled) {
     this.setState({metta: toggled})
-    // console.log('toggled metta:', toggled)
   },
 
   pressStart: function () {
-    // console.log('pressed start:', this.state)
     this.props.switchScreens({onConfigScreen: false}, this.state)
   },
 })
@@ -61147,18 +61142,18 @@ module.exports = React.createClass({displayName: "exports",
       border: 'none',
       width: 300,
       position: 'relative',
-      top: '-10px'
+      top: '-10px',
     }
 
     var arrowStyle = {
       color: '#a6a6a6',
-      fontSize: 36
+      fontSize: 36,
     }
 
     var arrowHoverStyle = {
       color: '#f6f6f6',
       background: 'none',
-      transition: 'color .1s ease-in-out'
+      transition: 'color .1s ease-in-out',
     }
 
     return 0,
@@ -61176,23 +61171,29 @@ module.exports = React.createClass({displayName: "exports",
 
 
 },{"react":535,"react-time-picker":345}],539:[function(require,module,exports){
+var React = require('react')
+
+module.exports = React.createClass({displayName: "exports",
+  render: function () {
+    return React.createElement("footer", null, "made with मेत्ता by ", React.createElement("a", {href: "http://dsernst.com", target: "_blank"}, "dsernst"))
+  },
+})
+
+},{"react":535}],540:[function(require,module,exports){
 require('howler') /*global Howl*/
 var React = require('react')
 var _ = require('lodash')
 var mui = require('material-ui')
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var Duration = require('./Duration.js')
+var Duration = require('./Duration.jsx')
 var audio = require('./audio-config.js')
-
-function nullTrackControl() {
-  // console.log('no track playing')
-}
+var Footer = require('./Footer.jsx')
 
 module.exports = React.createClass({displayName: "exports",
   getInitialState: function () {
     return _.extend(this.props.settings, {
-      sound: {pause: nullTrackControl, play: nullTrackControl},
+      sound: {pause: _.noop, play: _.noop},
       isPaused: false,
       timeRemaining: this.props.settings.duration,
     })
@@ -61209,7 +61210,6 @@ module.exports = React.createClass({displayName: "exports",
 
   componentWillMount: function () {
     this.setState({playlist: this.calculateStartTimes()})
-    // this.state.sound.play()
   },
 
   render: function () {
@@ -61220,7 +61220,8 @@ module.exports = React.createClass({displayName: "exports",
           React.createElement(RaisedButton, {label: "Resume", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.lightGreen700, onClick: this.pressResume}) :
           React.createElement(RaisedButton, {label: "Pause", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.amber700, onClick: this.pressPause}), 
         
-        React.createElement(RaisedButton, {label: "Stop", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.redA700, onClick: this.pressStop})
+        React.createElement(RaisedButton, {label: "Stop", fullWidth: true, style: {margin: '20px 0'}, backgroundColor: Colors.redA700, onClick: this.pressStop}), 
+        React.createElement(Footer, null)
       )
   },
 
@@ -61290,7 +61291,7 @@ module.exports = React.createClass({displayName: "exports",
 
 })
 
-},{"./Duration.js":537,"./audio-config.js":540,"howler":3,"lodash":4,"material-ui":37,"react":535}],540:[function(require,module,exports){
+},{"./Duration.jsx":537,"./Footer.jsx":539,"./audio-config.js":541,"howler":3,"lodash":4,"material-ui":37,"react":535}],541:[function(require,module,exports){
 module.exports = {
   directory: '/audio/',
   closingChanting: {
@@ -61315,14 +61316,13 @@ module.exports = {
   },
 }
 
-},{}],541:[function(require,module,exports){
+},{}],542:[function(require,module,exports){
 var React = require('react')
 var _ = require('lodash')
-var mui = require('material-ui')
-var Paper = mui.Paper
+var Paper = require('material-ui').Paper
 
-var ConfigScreen = require('./ConfigScreen')
-var PlaybackScreen = require('./PlaybackScreen')
+var ConfigScreen = require('./ConfigScreen.jsx')
+var PlaybackScreen = require('./PlaybackScreen.jsx')
 
 module.exports = React.createClass({displayName: "exports",
   getInitialState: function () {
@@ -61344,7 +61344,7 @@ module.exports = React.createClass({displayName: "exports",
     return 0,
       React.createElement("div", {className: "home-page"}, 
         React.createElement("h1", {className: "title"}, React.createElement("a", {href: "https://www.dhamma.org", target: "_blank"}, "S.N. Goenka"), " meditation timer"), 
-        React.createElement(Paper, {zDepth: 3, className: "main-box", style: {padding: 20}}, 
+        React.createElement(Paper, {zDepth: 3, className: "main-box"}, 
           this.state.onConfigScreen ?
             React.createElement(ConfigScreen, {switchScreens: this.switchScreens, defaultDuration: this.state.durationString, updateDurationString: this.updateDurationString}) :
             React.createElement(PlaybackScreen, {switchScreens: this.switchScreens, settings: this.state})
@@ -61354,4 +61354,4 @@ module.exports = React.createClass({displayName: "exports",
   },
 })
 
-},{"./ConfigScreen":536,"./PlaybackScreen":539,"lodash":4,"material-ui":37,"react":535}]},{},[1]);
+},{"./ConfigScreen.jsx":536,"./PlaybackScreen.jsx":540,"lodash":4,"material-ui":37,"react":535}]},{},[1]);
