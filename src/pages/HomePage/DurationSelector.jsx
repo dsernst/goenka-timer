@@ -21,18 +21,18 @@ module.exports = React.createClass({
       border: 'none',
       width: 300,
       position: 'relative',
-      top: '-10px'
+      top: '-10px',
     }
 
     var arrowStyle = {
       color: '#a6a6a6',
-      fontSize: 36
+      fontSize: 36,
     }
 
     var arrowHoverStyle = {
       color: '#f6f6f6',
       background: 'none',
-      transition: 'color .1s ease-in-out'
+      transition: 'color .1s ease-in-out',
     }
 
     return 0,

@@ -34,7 +34,7 @@ module.exports = React.createClass({
         <Toggle label="Include intro chanting? (2 min)" onToggle={this.toggleIntroChanting} />
         <Toggle label="Include closing chanting? (3 min)" onToggle={this.toggleClosingChanting} />
         <Toggle label="Include extended metta time? (4.5 min)" onToggle={this.toggleMetta} />
-        <RaisedButton label="Start" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.lightGreen700} onClick={this.pressStart} />
+        <RaisedButton label="Start" fullWidth={true} style={{margin: '20px 0 0'}} backgroundColor={Colors.lightGreen700} onClick={this.pressStart} />
       </div>
   },
 
