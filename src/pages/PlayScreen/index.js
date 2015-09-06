@@ -44,7 +44,7 @@ module.exports = connect(select)(React.createClass({
 
   render: function () {
     return 0,
-      <div>
+      <div className="play-screen">
         <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
         {this.state.isPaused ?
           <RaisedButton label="Resume" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.lightGreen700} onClick={this.pressResume} /> :
