@@ -12,6 +12,10 @@ function select (state) {
 module.exports = require('react-redux').connect(select)(React.createClass({
   mixins: [require('react-router').Navigation],
 
+  shouldComponentUpdate() {
+    return false
+  },
+
   render: function () {
     return 0,
       <div className="config">
