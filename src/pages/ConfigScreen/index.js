@@ -30,8 +30,8 @@ module.exports = require('react-redux').connect(require('lodash').identity)(Reac
         <Toggle onToggle={this.toggle('METTA')}
           label="Include extended metta time? (4.5 min)" defaultToggled={this.props.metta} />
 
-        <RaisedButton label="Start"  onClick={this.transitionTo.bind(null, 'play')}
-          fullWidth={true} style={{margin: '20px 0 0'}} backgroundColor={Colors.lightGreen700} />
+        <RaisedButton label="Start" onClick={this.transitionTo.bind(null, 'play')}
+          fullWidth style={{margin: '20px 0 0'}} backgroundColor={Colors.lightGreen700} />
 
       </div>
   },

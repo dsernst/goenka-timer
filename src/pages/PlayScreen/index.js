@@ -30,40 +30,37 @@ module.exports = require('react-redux').connect(_.identity)(React.createClass({
   },
 
   render: function () {
+    var isPaused = this.state.isPaused
     return 0,
       <div className="play-screen">
-        <Duration time={this.state.timeRemaining} isPaused={this.state.isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
-        {this.state.isPaused ?
-          <RaisedButton label="Resume" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.lightGreen700} onClick={this.pressResume} /> :
-          <RaisedButton label="Pause" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.amber700} onClick={this.pressPause} />
-        }
-        <RaisedButton label="Stop" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.redA700} onClick={this.pressStop} />
+
+        <Duration time={this.state.timeRemaining} isPaused={isPaused} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
+
+        <RaisedButton label={isPaused ? 'Resume' : 'Pause'} fullWidth style={{margin: '20px 0'}}
+          backgroundColor={isPaused ? Colors.lightGreen700 : Colors.amber700} onClick={function () {
+            isPaused ? this.state.sound.play() : this.state.sound.pause()
+            this.setState({isPaused: !this.state.isPaused})
+          }.bind(this)} />
+
+        <RaisedButton label="Stop" fullWidth style={{margin: '20px 0'}} backgroundColor={Colors.redA700}
+          onClick={this.transitionTo.bind(null, '/')} />
+
         <Footer />
+
       </div>
   },
 
-  updateTimeRemaining: function (millisecondsRemaining) {
-    this.setState({timeRemaining: millisecondsRemaining})
-  },
-
-  pressPause: function () {
-    this.state.sound.pause()
-    this.setState({isPaused: true})
-  },
-
-  pressResume: function () {
-    this.state.sound.play()
-    this.setState({isPaused: false})
-  },
-
-  pressStop: function () {
+  componentWillUnmount: function () {
     this.state.sound.stop()
-    this.transitionTo('/')
+  },
+
+  updateTimeRemaining: function (timeRemaining) {
+    this.setState({timeRemaining: timeRemaining})
   },
 
   playNextTrack: function () {
-    var track = this.state.playlist.shift()
-    this.setState({sound: new Howl({urls: [track.file]}).play()})
+    var nextTrack = new Howl({urls: [this.state.playlist.shift().file]}).play()
+    this.setState({sound: nextTrack})
   },
 
 }))
