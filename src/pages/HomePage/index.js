@@ -1,10 +1,9 @@
 var React = require('react')
 var _ = require('lodash')
-var mui = require('material-ui')
-var Paper = mui.Paper
+var Paper = require('material-ui').Paper
 
-var ConfigScreen = require('./ConfigScreen')
-var PlaybackScreen = require('./PlaybackScreen')
+var ConfigScreen = require('./ConfigScreen.jsx')
+var PlaybackScreen = require('./PlaybackScreen.jsx')
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -26,7 +25,7 @@ module.exports = React.createClass({
     return 0,
       <div className='home-page'>
         <h1 className='title'><a href="https://www.dhamma.org" target="_blank">S.N. Goenka</a> meditation timer</h1>
-        <Paper zDepth={3} className="main-box" style={{padding: 20}}>
+        <Paper zDepth={3} className="main-box">
           {this.state.onConfigScreen ?
             <ConfigScreen switchScreens={this.switchScreens} defaultDuration={this.state.durationString} updateDurationString={this.updateDurationString} /> :
             <PlaybackScreen switchScreens={this.switchScreens} settings={this.state} />

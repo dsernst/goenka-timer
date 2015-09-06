@@ -1,32 +1,50 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:500);
+
 html {
   height: 100%;
   background: #001709; /* Old browsers */
   background: -ms-linear-gradient(-45deg,  #001709 0%,#055426 100%); /* IE10+ */
   background: linear-gradient(135deg,  #001709 0%,#055426 100%); /* W3C */
-}
 
-body {
-  max-width: 750px;
-  margin: 0 auto;
-}
+  body {
+    @color: #f2f2f2;
+    color: @color;
+    max-width: 750px;
+    margin: 0 auto;
 
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:500);
+    a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid hsl(0, 0%, 30%);
 
-h1.title {
-  color: hsl(0, 0%, 95%);
-  text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
-  font-weight: 500;
-  font-family: Ubuntu;
-  padding-top: 20px;
-}
+      &:hover {
+        border-bottom: 1px solid @color;
+      }
+    }
 
-.config-container > * {
-  margin-bottom: 20px;
-}
+    h1 {
+      text-align: center;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+      font-family: Ubuntu;
+      padding-top: 20px;
+    }
 
-.timer {
-  color: white;
-  text-align: center;
-  font-size: 250%;
+    .config-container > * {
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      color: white;
+      text-align: center;
+      font-size: 250%;
+    }
+
+    footer {
+      margin: 30px 0 0;
+      text-align: center;
+      background: none;
+    }
+
+  }
 }

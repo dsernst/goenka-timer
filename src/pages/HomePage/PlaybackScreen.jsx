@@ -4,17 +4,14 @@ var _ = require('lodash')
 var mui = require('material-ui')
 var RaisedButton = mui.RaisedButton
 var Colors = mui.Styles.Colors
-var Duration = require('./Duration.js')
+var Duration = require('./Duration.jsx')
 var audio = require('./audio-config.js')
-
-function nullTrackControl() {
-  // console.log('no track playing')
-}
+var Footer = require('./Footer.jsx')
 
 module.exports = React.createClass({
   getInitialState: function () {
     return _.extend(this.props.settings, {
-      sound: {pause: nullTrackControl, play: nullTrackControl},
+      sound: {pause: _.noop, play: _.noop},
       isPaused: false,
       timeRemaining: this.props.settings.duration,
     })
@@ -31,7 +28,6 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     this.setState({playlist: this.calculateStartTimes()})
-    // this.state.sound.play()
   },
 
   render: function () {
@@ -43,6 +39,7 @@ module.exports = React.createClass({
           <RaisedButton label="Pause" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.amber700} onClick={this.pressPause} />
         }
         <RaisedButton label="Stop" fullWidth={true} style={{margin: '20px 0'}} backgroundColor={Colors.redA700} onClick={this.pressStop} />
+        <Footer />
       </div>
   },
 
