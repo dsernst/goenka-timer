@@ -1,10 +1,5 @@
 # Goenka timer roadmap
 
-- [ ] Cleanup duration selector UI
-  - bigger buttons
-  - show Hour, Minute
-  - Use sliders on mobile
-
 -------- THEN --------
 
 - [ ] unidirectional data flow

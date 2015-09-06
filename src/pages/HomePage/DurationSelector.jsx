@@ -17,10 +17,28 @@ module.exports = React.createClass({
       border: 'none',
     }
 
+    var timePickerStyle = {
+      border: 'none',
+      width: 300,
+      position: 'relative',
+      top: '-10px'
+    }
+
+    var arrowStyle = {
+      color: '#a6a6a6',
+      fontSize: 36
+    }
+
+    var arrowHoverStyle = {
+      color: '#f6f6f6',
+      background: 'none',
+      transition: 'color .1s ease-in-out'
+    }
+
     return 0,
-      <div className="duration-config" style={{textAlign: 'center'}}>
-        <h3 style={{textAlign: 'left'}}>How long would you like to sit?</h3>
-        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={{border: 'none', width: 300, position: 'relative', top: '-10px'}} hourInputStyle={inputStyle} minuteInputStyle={inputStyle} arrowStyle={{color: '#a6a6a6', fontSize: 36}} arrowOverStyle={{color: '#f6f6f6', background: 'none', transition: 'color .1s ease-in-out'}}/>
+      <div className="duration-config">
+        <h3>How long would you like to sit?</h3>
+        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={timePickerStyle} inputProps={{type: 'tel'}} inputStyle={inputStyle} arrowStyle={arrowStyle} arrowOverStyle={arrowHoverStyle} />
       </div>
   },
 
