@@ -10,7 +10,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       onConfigScreen: true,
-      durationString: '00:20',
+      durationString: '0:20',
     }
   },
 

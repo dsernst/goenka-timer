@@ -8,7 +8,6 @@ module.exports = React.createClass({
     }
   },
 
-
   render: function () {
     var inputStyle = {
       fontSize: 36,
@@ -20,8 +19,8 @@ module.exports = React.createClass({
 
     return 0,
       <div className="duration-setting" style={{textAlign: 'center'}}>
-        <h2 style={{textAlign: 'left'}}>How long would you like to sit?</h2>
-        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={{border: 'none', width: 300, position: 'relative', top: '-10px'}} hourInputStyle={inputStyle} minuteInputStyle={inputStyle} arrowStyle={{color: '#c6c6c6', fontSize: 36}} arrowOverStyle={{color: '#f6f6f6', background: 'none'}}/>
+        <h3 style={{textAlign: 'left'}}>How long would you like to sit?</h3>
+        <TimePicker value={this.state.value} onChange={this.adjustDuration} style={{border: 'none', width: 300, position: 'relative', top: '-10px'}} hourInputStyle={inputStyle} minuteInputStyle={inputStyle} arrowStyle={{color: '#a6a6a6', fontSize: 36}} arrowOverStyle={{color: '#f6f6f6', background: 'none', transition: 'color .1s ease-in-out'}}/>
       </div>
   },
 
