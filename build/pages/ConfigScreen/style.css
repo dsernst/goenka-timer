@@ -1,0 +1,57 @@
+.config > * {
+  margin-bottom: 20px;
+}
+.duration {
+  text-align: center;
+}
+.duration h3 {
+  text-align: left;
+  margin-top: 0;
+}
+.duration span {
+  display: none;
+}
+.duration > div {
+  border: none !important;
+  width: 250px !important;
+}
+.duration > div > div span {
+  color: #a6a6a6;
+  font-size: 36px;
+  transition: color 0.1s ease-in-out;
+}
+.duration > div > div span:hover {
+  color: #f6f6f6;
+  background: none !important;
+}
+.duration > div > div .unit-label {
+  font-size: 21px;
+  position: relative;
+  bottom: 81px;
+}
+.duration > div > div:first-child:after {
+  font-size: 21px;
+  position: relative;
+  bottom: 81px;
+  content: 'h';
+  left: 28px;
+}
+.duration > div > div:last-child:after {
+  font-size: 21px;
+  position: relative;
+  bottom: 81px;
+  content: 'm';
+  left: 36px;
+}
+.duration > div > div input {
+  z-index: 2;
+  font-size: 36px;
+  padding: 5px;
+  background: none;
+  color: #f6f6f6;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
+}
+.duration > div > div input:hover {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
