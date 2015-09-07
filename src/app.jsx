@@ -4,7 +4,11 @@ var injectTapEventPlugin = require('react-tap-event-plugin')
 var ThemeManager = new mui.Styles.ThemeManager()
 var Footer = require('./Footer.jsx')
 
-var store = require('redux').createStore(require('./reducer'))
+var store = require('redux').compose(
+  require('redux-localstorage')()
+  )(require('redux').createStore
+  )(require('./reducer')
+)
 
 if (window.location.hostname === 'localhost') {
   store.subscribe(function() {
