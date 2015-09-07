@@ -62135,7 +62135,7 @@ var Colors = mui.Styles.Colors
 module.exports = require('react-redux').connect(require('lodash').identity)(React.createClass({
   mixins: [require('react-router').Navigation],
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate: function() {
     return false
   },
 
