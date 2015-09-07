@@ -1,0 +1,73 @@
+.config > * {
+  margin-bottom: 20px;
+}
+
+.duration {
+
+  text-align: center;
+
+  h3 {
+    text-align: left;
+    margin-top: 0;
+  }
+
+  span {
+    display: none; // hide the : divider
+  }
+
+  > div { // the whole time-picker
+    border: none !important;
+    width: 250px !important;
+
+    > div { // each box
+
+      span { // the arrows
+        color: #a6a6a6;
+        font-size: 36px;
+        transition: color .1s ease-in-out;
+
+        &:hover {
+          color: #f6f6f6;
+          background: none !important;
+        }
+      }
+
+      .unit-label { // add H and M labels
+        font-size: 21px;
+        position: relative;
+        bottom: 81px;
+      }
+
+      &:first-child:after {
+        .unit-label; // add H and M labels
+        content: 'h';
+        left: 28px;
+      }
+      &:last-child:after {
+        .unit-label; // add H and M labels
+        content: 'm';
+        left: 36px;
+      }
+
+      input {
+        z-index: 2; // so our :after labels don't block the input:hover
+        font-size: 36px;
+        padding: 5px;
+        background: none;
+        color: #f6f6f6;
+        border: none;
+        transition: background-color .2s ease-in-out;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.3) !important;
+        }
+
+      }
+
+
+  }
+
+
+
+  }
+}

@@ -20,6 +20,8 @@
     "gulp-webserver": "^0.8.7",
     "mac-sounds": "^0.1.1",
     "reactify": "^0.17.1",
+    "redux-devtools": "^2.1.0",
+    "should": "^7.1.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {
@@ -30,9 +32,11 @@
     "moment": "^2.10.5",
     "react": "^0.13.3",
     "react-countdown-timer": "^1.0.2",
+    "react-redux": "^2.1.0",
     "react-router": "^0.13.3",
     "react-tap-event-plugin": "^0.1.7",
-    "react-time-picker": "^1.1.0"
+    "react-time-picker": "^1.1.0",
+    "redux": "^2.0.0"
   },
   "jest": {
     "unmockedModulePathPatterns": [

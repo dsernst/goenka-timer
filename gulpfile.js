@@ -150,11 +150,6 @@ gulp.task('server', function () {
     }))
 })
 
-// Copies the `material-ui` CSS (LESS) framework from the `node_modules` folder, assuming that it's been properly installed.
-gulp.task('copy-material', function (done) {
-  return runsequence('clear-material', 'copy-material-no-clear', done)
-})
-
 // The default for development: `npm start` calls this.
 // Watches for changes, runs the builds, and fires up a web server. Also opens a new browser tab to the application.
 gulp.task('develop', function () {
