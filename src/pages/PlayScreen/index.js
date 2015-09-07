@@ -5,7 +5,6 @@ var mui = require('material-ui')
 var RaisedButton = mui.RaisedButton
 var colors = mui.Styles.Colors
 var Duration = require('./Duration.jsx')
-var Footer = require('./Footer.jsx')
 var Navigation = require('react-router').Navigation
 
 var hMM2ms = require('./hMM-to-ms.js')
@@ -44,8 +43,6 @@ module.exports = require('react-redux').connect(_.identity)(React.createClass({
 
         <RaisedButton label="Stop" fullWidth style={{margin: '20px 0'}} backgroundColor={colors.redA700}
           onClick={this.transitionTo.bind(null, '/')} />
-
-        <Footer />
 
       </div>
   },

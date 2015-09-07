@@ -2,12 +2,13 @@ var React = require('react')
 var mui = require('material-ui')
 var injectTapEventPlugin = require('react-tap-event-plugin')
 var ThemeManager = new mui.Styles.ThemeManager()
+var Footer = require('./Footer.jsx')
 
 var store = require('redux').createStore(require('./reducer'))
 
 if (window.location.hostname === 'localhost') {
   store.subscribe(function() {
-    console.log(store.getState())
+    console.log(store.getState()) //eslint-disable-line no-console
   })
 }
 
@@ -39,14 +40,17 @@ var Master = React.createClass({
     var Paper = mui.Paper
     return 0,
       <div className='app'>
-        <h1 className='title'><a href="https://www.dhamma.org" target="_blank">S.N. Goenka</a> meditation timer</h1>
-        <Paper zDepth={3} className="main-box">
 
+        <h1 className='title'><a href="https://www.dhamma.org" target="_blank">S.N. Goenka</a> meditation timer</h1>
+
+        <Paper zDepth={3} className="main-box">
           <Provider store={store}>
             { function () {return <RouteHandler />}}
            </Provider>
-
         </Paper>
+
+        <Footer />
+
       </div>
   },
 })
