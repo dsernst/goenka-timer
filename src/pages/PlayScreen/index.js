@@ -41,7 +41,7 @@ module.exports = require('react-redux').connect(_.identity)(React.createClass({
             this.setState({isPlaying: !this.state.isPlaying})
           }.bind(this)} />
 
-        <RaisedButton label="Stop" fullWidth style={{margin: '20px 0'}} backgroundColor={colors.redA700}
+        <RaisedButton label="Stop" fullWidth style={{margin: '20px 0 0'}} backgroundColor={colors.redA700}
           onClick={this.transitionTo.bind(null, '/')} />
 
       </div>
