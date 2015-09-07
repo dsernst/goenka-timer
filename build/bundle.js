@@ -5,7 +5,11 @@ var injectTapEventPlugin = require('react-tap-event-plugin')
 var ThemeManager = new mui.Styles.ThemeManager()
 var Footer = require('./Footer.jsx')
 
-var store = require('redux').createStore(require('./reducer'))
+var store = require('redux').compose(
+  require('redux-localstorage')()
+  )(require('redux').createStore
+  )(require('./reducer')
+)
 
 if (window.location.hostname === 'localhost') {
   store.subscribe(function() {
@@ -73,7 +77,7 @@ Router.run(routes, function (Root) {
   React.render(React.createElement(Root, null), document.body)
 })
 
-},{"./Footer.jsx":554,"./pages/ConfigScreen":556,"./pages/PlayScreen":561,"./reducer":562,"material-ui":37,"react":544,"react-redux":294,"react-router":324,"react-tap-event-plugin":342,"redux":546}],2:[function(require,module,exports){
+},{"./Footer.jsx":559,"./pages/ConfigScreen":561,"./pages/PlayScreen":566,"./reducer":567,"material-ui":37,"react":544,"react-redux":294,"react-router":324,"react-tap-event-plugin":342,"redux":551,"redux-localstorage":547}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -53993,7 +53997,7 @@ function wrapActionCreators(actionCreators) {
 }
 
 module.exports = exports['default'];
-},{"redux":546}],299:[function(require,module,exports){
+},{"redux":551}],299:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -61600,6 +61604,218 @@ module.exports=require(290)
 },{"./lib/React":402,"/Users/dsernst/Documents/goenka-timer/node_modules/react-countdown-timer/node_modules/react/react.js":290}],545:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = createSlicer;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _getSubsetJs = require('./getSubset.js');
+
+var _getSubsetJs2 = _interopRequireDefault(_getSubsetJs);
+
+var _utilTypeOfJs = require('./util/typeOf.js');
+
+/**
+ * @description
+ * createSlicer inspects the typeof paths and returns an appropriate slicer function.
+ *
+ * @param {String|String[]} [paths] The paths argument supplied to persistState.
+ *
+ * @return {Function} A slicer function, which returns the subset to store when called with Redux's store state.
+ */
+
+var _utilTypeOfJs2 = _interopRequireDefault(_utilTypeOfJs);
+
+function createSlicer(paths) {
+  switch ((0, _utilTypeOfJs2['default'])(paths)) {
+    case 'void':
+      return function (state) {
+        return state;
+      };
+    case 'string':
+      return function (state) {
+        return (0, _getSubsetJs2['default'])(state, [paths]);
+      };
+    case 'array':
+      return function (state) {
+        return (0, _getSubsetJs2['default'])(state, paths);
+      };
+    default:
+      return console.error('Invalid paths argument, should be of type String, Array or Void');
+  }
+}
+
+module.exports = exports['default'];
+},{"./getSubset.js":546,"./util/typeOf.js":549}],546:[function(require,module,exports){
+/**
+ * @description
+ * getSubset returns an object with the same structure as the original object passed in,
+ * but contains only the specified keys and only if that key has a truth-y value.
+ *
+ * @param {Object} obj The object from which to create a subset.
+ * @param {String[]} paths An array of (top-level) keys that should be included in the subset.
+ *
+ * @return {Object} An object that contains the specified keys with truth-y values
+ */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = getSubset;
+
+function getSubset(obj, paths) {
+  var subset = {};
+
+  paths.forEach(function (key) {
+    var slice = obj[key];
+    if (slice) subset[key] = slice;
+  });
+
+  return subset;
+}
+
+module.exports = exports["default"];
+},{}],547:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports['default'] = persistState;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _createSlicerJs = require('./createSlicer.js');
+
+var _createSlicerJs2 = _interopRequireDefault(_createSlicerJs);
+
+var _utilMergeStateJs = require('./util/mergeState.js');
+
+/**
+ * @description
+ * persistState is a Store Enhancer that syncs (a subset of) store state to localStorage.
+ *
+ * @param {String|String[]} [paths] Specify keys to sync with localStorage, if left undefined the whole store is persisted
+ * @param {Object} [config] Optional config object
+ * @param {String} [config.key="redux"] String used as localStorage key
+ * @param {Function} [config.slicer] (paths) => (state) => subset. A function that returns a subset
+ * of store state that should be persisted to localStorage
+ * @param {Function} [config.serialize=JSON.stringify] (subset) => serializedData. Called just before persisting to
+ * localStorage. Should transform the subset into a format that can be stored.
+ * @param {Function} [config.deserialize=JSON.parse] (persistedData) => subset. Called directly after retrieving
+ * persistedState from localStorage. Should transform the data into the format expected by your application
+ *
+ * @return {Function} An enhanced store
+ */
+
+var _utilMergeStateJs2 = _interopRequireDefault(_utilMergeStateJs);
+
+function persistState(paths, config) {
+  var cfg = _extends({
+    key: 'redux',
+    merge: _utilMergeStateJs2['default'],
+    slicer: _createSlicerJs2['default'],
+    serialize: JSON.stringify,
+    deserialize: JSON.parse
+  }, config);
+
+  var key = cfg.key;
+  var merge = cfg.merge;
+  var slicer = cfg.slicer;
+  var serialize = cfg.serialize;
+  var deserialize = cfg.deserialize;
+
+  return function (next) {
+    return function (reducer, initialState) {
+      var persistedState = undefined;
+      var finalInitialState = undefined;
+
+      try {
+        persistedState = deserialize(localStorage.getItem(key));
+        finalInitialState = merge(initialState, persistedState);
+      } catch (e) {
+        console.warn('Failed to retrieve initialize state from localStorage:', e);
+      }
+
+      var store = next(reducer, finalInitialState);
+      var slicerFn = slicer(paths);
+
+      store.subscribe(function () {
+        var state = store.getState();
+        var subset = slicerFn(state);
+
+        try {
+          localStorage.setItem(key, serialize(subset));
+        } catch (e) {
+          console.warn('Unable to persist state to localStorage:', e);
+        }
+      });
+
+      return store;
+    };
+  };
+}
+
+module.exports = exports['default'];
+},{"./createSlicer.js":545,"./util/mergeState.js":548}],548:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports["default"] = mergeState;
+
+function mergeState(initialState, persistedState) {
+  return persistedState ? _extends({}, initialState, persistedState) : initialState;
+}
+
+module.exports = exports["default"];
+},{}],549:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = typeOf;
+var _isArray = Array.isArray || (Array.isArray = function (a) {
+  return '' + a !== a && ({}).toString.call(a) === '[object Array]';
+});
+
+/**
+ * @description
+ * typeof method that
+ * 1. groups all false-y & empty values as void
+ * 2. distinguishes between object and array
+ *
+ * @param {*} thing The thing to inspect
+ *
+ * @return {String} Actionable type classification
+ */
+
+function typeOf(thing) {
+  if (!thing) return 'void';
+
+  if (_isArray(thing)) {
+    if (!thing.length) return 'void';
+    return 'array';
+  }
+
+  return typeof thing;
+}
+
+module.exports = exports['default'];
+},{}],550:[function(require,module,exports){
+'use strict';
+
 exports.__esModule = true;
 exports['default'] = createStore;
 
@@ -61749,7 +61965,7 @@ function createStore(reducer, initialState) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":551}],546:[function(require,module,exports){
+},{"./utils/isPlainObject":556}],551:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -61781,7 +61997,7 @@ exports.combineReducers = _utilsCombineReducers2['default'];
 exports.bindActionCreators = _utilsBindActionCreators2['default'];
 exports.applyMiddleware = _utilsApplyMiddleware2['default'];
 exports.compose = _utilsCompose2['default'];
-},{"./createStore":545,"./utils/applyMiddleware":547,"./utils/bindActionCreators":548,"./utils/combineReducers":549,"./utils/compose":550}],547:[function(require,module,exports){
+},{"./createStore":550,"./utils/applyMiddleware":552,"./utils/bindActionCreators":553,"./utils/combineReducers":554,"./utils/compose":555}],552:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -61843,7 +62059,7 @@ function applyMiddleware() {
 }
 
 module.exports = exports['default'];
-},{"./compose":550}],548:[function(require,module,exports){
+},{"./compose":555}],553:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -61899,7 +62115,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 module.exports = exports['default'];
-},{"../utils/mapValues":552}],549:[function(require,module,exports){
+},{"../utils/mapValues":557}],554:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -62016,7 +62232,7 @@ function combineReducers(reducers) {
 
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"../createStore":545,"../utils/isPlainObject":551,"../utils/mapValues":552,"../utils/pick":553,"_process":2}],550:[function(require,module,exports){
+},{"../createStore":550,"../utils/isPlainObject":556,"../utils/mapValues":557,"../utils/pick":558,"_process":2}],555:[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -62042,9 +62258,9 @@ function compose() {
 }
 
 module.exports = exports["default"];
-},{}],551:[function(require,module,exports){
+},{}],556:[function(require,module,exports){
 module.exports=require(296)
-},{"/Users/dsernst/Documents/goenka-timer/node_modules/react-redux/lib/utils/isPlainObject.js":296}],552:[function(require,module,exports){
+},{"/Users/dsernst/Documents/goenka-timer/node_modules/react-redux/lib/utils/isPlainObject.js":296}],557:[function(require,module,exports){
 /**
  * Applies a function to every key-value pair inside an object.
  *
@@ -62065,7 +62281,7 @@ function mapValues(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],553:[function(require,module,exports){
+},{}],558:[function(require,module,exports){
 /**
  * Picks key-value pairs from an object where values satisfy a predicate.
  *
@@ -62088,7 +62304,7 @@ function pick(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],554:[function(require,module,exports){
+},{}],559:[function(require,module,exports){
 var React = require('react')
 
 module.exports = React.createClass({displayName: "exports",
@@ -62097,7 +62313,7 @@ module.exports = React.createClass({displayName: "exports",
   },
 })
 
-},{"react":544}],555:[function(require,module,exports){
+},{"react":544}],560:[function(require,module,exports){
 var React = require('react')
 var TimePicker = require('react-time-picker')
 
@@ -62123,7 +62339,7 @@ module.exports = React.createClass({displayName: "exports",
 })
 
 
-},{"react":544,"react-time-picker":354}],556:[function(require,module,exports){
+},{"react":544,"react-time-picker":354}],561:[function(require,module,exports){
 var React = require('react')
 
 var DurationSelector = require('./DurationSelector.jsx')
@@ -62167,7 +62383,7 @@ module.exports = require('react-redux').connect(require('lodash').identity)(Reac
   },
 }))
 
-},{"./DurationSelector.jsx":555,"lodash":4,"material-ui":37,"react":544,"react-redux":294,"react-router":324}],557:[function(require,module,exports){
+},{"./DurationSelector.jsx":560,"lodash":4,"material-ui":37,"react":544,"react-redux":294,"react-router":324}],562:[function(require,module,exports){
 var React = require('react')
 var CountdownTimer = require('react-countdown-timer')
 
@@ -62193,7 +62409,7 @@ module.exports = React.createClass({displayName: "exports",
 })
 
 
-},{"./hMM-to-ms.js":560,"react":544,"react-countdown-timer":135}],558:[function(require,module,exports){
+},{"./hMM-to-ms.js":565,"react":544,"react-countdown-timer":135}],563:[function(require,module,exports){
 module.exports = {
   directory: '/audio/',
   closingChanting: {
@@ -62218,7 +62434,7 @@ module.exports = {
   },
 }
 
-},{}],559:[function(require,module,exports){
+},{}],564:[function(require,module,exports){
 var audio = require('./audio-config.js')
 
 module.exports = function generatePlaylist (totalTime, props) {
@@ -62264,7 +62480,7 @@ module.exports = function generatePlaylist (totalTime, props) {
   return startTimes
 }
 
-},{"./audio-config.js":558}],560:[function(require,module,exports){
+},{"./audio-config.js":563}],565:[function(require,module,exports){
 module.exports = function durationStringToMilliseconds(string) {
   return string.split(':').reduce(function (memo, seconds, index) {
     if (index === 0) {
@@ -62291,7 +62507,7 @@ module.exports.reverse = function millisecondsToDurationString(milliseconds) {
   return [hours, minutes, seconds].map(pad).join(':')
 }
 
-},{}],561:[function(require,module,exports){
+},{}],566:[function(require,module,exports){
 require('howler') /*global Howl*/
 var React = require('react')
 var _ = require('lodash')
@@ -62356,7 +62572,7 @@ module.exports = require('react-redux').connect(_.identity)(React.createClass({
 
 }))
 
-},{"./Duration.jsx":557,"./generate-playlist.js":559,"./hMM-to-ms.js":560,"howler":3,"lodash":4,"material-ui":37,"react":544,"react-redux":294,"react-router":324}],562:[function(require,module,exports){
+},{"./Duration.jsx":562,"./generate-playlist.js":564,"./hMM-to-ms.js":565,"howler":3,"lodash":4,"material-ui":37,"react":544,"react-redux":294,"react-router":324}],567:[function(require,module,exports){
 var _ = require('lodash')
 
 var initialState = {
