@@ -2,7 +2,6 @@
 
 -------- THEN --------
 
-- [ ] unidirectional data flow
 - [ ] remember settings between sessions
 - [ ] display generated playlist on config screen
 - [ ] custom metta time
