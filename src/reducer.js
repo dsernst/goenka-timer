@@ -1,7 +1,7 @@
 var _ = require('lodash')
 
 var initialState = {
-  duration: '0:20',
+  duration: '0:59',
   intro: false,
   closing: false,
   metta: false,
