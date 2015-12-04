@@ -1,5 +1,5 @@
 var React = require('react')
-var CountdownTimer = require('react-countdown-timer')
+var CountdownTimer = require('./react-countdown-timer')
 
 var ms2hMM = require('./hMM-to-ms.js').reverse
 
@@ -21,4 +21,3 @@ module.exports = React.createClass({
     }
   },
 })
-
