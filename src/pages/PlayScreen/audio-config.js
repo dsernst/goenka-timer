@@ -2,7 +2,7 @@ module.exports = {
   directory: '/audio/',
   closingChanting: {
     filename: 'closing-chanting.mp3',
-    length: (2 * 60 + 54) * 1000,
+    length: (2 * 60 + 55) * 1000,
   },
   closingMetta: {
     filename: 'closing-metta.mp3',
