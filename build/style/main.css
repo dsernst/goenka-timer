@@ -46,4 +46,7 @@ html .app footer {
   html .app {
     margin-top: 0px;
   }
+  html .app h1 {
+    font-size: 24px;
+  }
 }
