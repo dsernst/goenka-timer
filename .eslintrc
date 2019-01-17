@@ -11,6 +11,7 @@
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
     "comma-dangle": [1, "always-multiline"],
     "indent": [1, 2],
+    "jsx-quotes": 1,
     "new-cap": 1,
     "no-alert": 1,
     "no-console": 1,
@@ -36,12 +37,12 @@
 
     "react/display-name": 0,
     "react/jsx-boolean-value": 1,
-    "react/jsx-quotes": 1,
     "react/jsx-no-undef": 2,
     "react/jsx-sort-props": 0,
     "react/jsx-sort-prop-types": 0,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
+    "react/jsx-wrap-multilines": 1,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
     "react/no-multi-comp": 1,
@@ -49,6 +50,5 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
-    "react/wrap-multilines": 1,
   }
 }
