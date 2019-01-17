@@ -46,7 +46,7 @@ var CountdownTimer = React.createClass({
     }
   },
 
-  componentWillReceiveProps: function(newProps, oldProps) {
+  componentWillReceiveProps: function(newProps) {
     if (this.state.timeoutId) clearTimeout(this.state.timeoutId)
     this.setState({ prevTime: undefined, timeRemaining: newProps.initialTimeRemaining })
   },
@@ -109,9 +109,9 @@ var CountdownTimer = React.createClass({
 
     var totalSeconds = Math.round(milliseconds / 1000)
 
-    var seconds = parseInt(totalSeconds % 60)
-    var minutes = parseInt(totalSeconds / 60) % 60
-    var hours = parseInt(totalSeconds / 3600)
+    var seconds = parseInt(totalSeconds % 60, 10)
+    var minutes = parseInt(totalSeconds / 60, 10) % 60
+    var hours = parseInt(totalSeconds / 3600, 10)
 
     seconds = seconds < 10 ? '0' + seconds : seconds
     minutes = minutes < 10 ? '0' + minutes : minutes
@@ -124,7 +124,7 @@ var CountdownTimer = React.createClass({
     var timeRemaining = this.state.timeRemaining
 
     return (
-      <div className='timer'>
+      <div className="timer">
         {this.getFormattedTime(timeRemaining)}
       </div>
     )

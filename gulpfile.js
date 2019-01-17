@@ -1,3 +1,5 @@
+/* global __dirname */
+
 var gulp = require('gulp')
 var webserver = require('gulp-webserver')
 var less = require('gulp-less')
