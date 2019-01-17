@@ -50,5 +50,10 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
-  }
+  },
+  settings: {
+    react: {
+      version: "detect",
+      },
+    },
 }
