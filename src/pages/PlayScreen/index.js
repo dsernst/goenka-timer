@@ -31,20 +31,20 @@ module.exports = require('react-redux').connect(_.identity)(React.createClass({
   render: function () {
     var isPlaying = this.state.isPlaying
     return 0,
-      <div className="play-screen">
+    <div className="play-screen">
 
-        <Duration time={this.state.timeRemaining} isPlaying={isPlaying} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
+      <Duration time={this.state.timeRemaining} isPlaying={isPlaying} updateTimeRemaining={this.updateTimeRemaining} playlist={this.state.playlist} playNextTrack={this.playNextTrack} />
 
-        <RaisedButton label={isPlaying ? 'Pause' : 'Resume'} fullWidth style={{margin: '20px 0'}}
-          backgroundColor={isPlaying ? colors.amber700 : colors.lightGreen700} onClick={function () {
-            isPlaying ? this.state.track.pause() : this.state.track.play()
-            this.setState({isPlaying: !this.state.isPlaying})
-          }.bind(this)} />
+      <RaisedButton label={isPlaying ? 'Pause' : 'Resume'} fullWidth style={{margin: '20px 0'}}
+        backgroundColor={isPlaying ? colors.amber700 : colors.lightGreen700} onClick={function () {
+          isPlaying ? this.state.track.pause() : this.state.track.play()
+          this.setState({isPlaying: !this.state.isPlaying})
+        }.bind(this)} />
 
-        <RaisedButton label="Stop" fullWidth style={{margin: '20px 0 0'}} backgroundColor={colors.redA700}
-          onClick={this.transitionTo.bind(null, '/')} />
+      <RaisedButton label="Stop" fullWidth style={{margin: '20px 0 0'}} backgroundColor={colors.redA700}
+        onClick={this.transitionTo.bind(null, '/')} />
 
-      </div>
+    </div>
   },
 
   updateTimeRemaining: function (timeRemaining) {

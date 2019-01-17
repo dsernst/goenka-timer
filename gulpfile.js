@@ -107,7 +107,7 @@ gulp.task('index', function (done) {
 
 gulp.task('copy-assets', function () {
   gulp.src(paths.assets)
-      .pipe(gulp.dest(destPath))
+    .pipe(gulp.dest(destPath))
 })
 
 // Compiles the global styles, local styles, and the JavaSript/JSX code, and

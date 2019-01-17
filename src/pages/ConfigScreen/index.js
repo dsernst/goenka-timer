@@ -15,25 +15,25 @@ module.exports = require('react-redux').connect(require('lodash').identity)(Reac
 
   render: function () {
     return 0,
-      <div className="config">
+    <div className="config">
 
-        <DurationSelector setDuration={function (string) {
-            this.props.dispatch({type: 'SET_DURATION', payload: string})
-          }.bind(this)} defaultDuration={this.props.duration} />
+      <DurationSelector setDuration={function (string) {
+        this.props.dispatch({type: 'SET_DURATION', payload: string})
+      }.bind(this)} defaultDuration={this.props.duration} />
 
-        <Toggle onToggle={this.toggle('INTRO')}
-          label="Include intro chanting? (2 min)" defaultToggled={this.props.intro} />
+      <Toggle onToggle={this.toggle('INTRO')}
+        label="Include intro chanting? (2 min)" defaultToggled={this.props.intro} />
 
-        <Toggle onToggle={this.toggle('CLOSING')}
-          label="Include closing chanting? (3 min)" defaultToggled={this.props.closing} />
+      <Toggle onToggle={this.toggle('CLOSING')}
+        label="Include closing chanting? (3 min)" defaultToggled={this.props.closing} />
 
-        <Toggle onToggle={this.toggle('METTA')}
-          label="Include extended metta time? (4.5 min)" defaultToggled={this.props.metta} />
+      <Toggle onToggle={this.toggle('METTA')}
+        label="Include extended metta time? (4.5 min)" defaultToggled={this.props.metta} />
 
-        <RaisedButton label="Start" onClick={this.transitionTo.bind(null, 'play')}
-          fullWidth style={{margin: '20px 0 0'}} backgroundColor={Colors.lightGreen700} />
+      <RaisedButton label="Start" onClick={this.transitionTo.bind(null, 'play')}
+        fullWidth style={{margin: '20px 0 0'}} backgroundColor={Colors.lightGreen700} />
 
-      </div>
+    </div>
   },
 
   toggle: function (key) {

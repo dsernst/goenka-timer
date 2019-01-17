@@ -4,9 +4,6 @@
     "commonjs": true,
     "browser": true
   },
-  "ecma-features": {
-    "jsx": true
-  },
   "plugins": [
     "react"
   ],
