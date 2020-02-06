@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "org.dsernst.GoenkaNative",
+                "paths": [ "/email-verification"]
+            }
+        ]
+    }
+}
